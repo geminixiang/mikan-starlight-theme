@@ -1,0 +1,90 @@
+---
+title: Markdown elements
+description: Every common Markdown construct, rendered through the mikan theme.
+---
+
+This page exercises the full range of Markdown so every element can be checked
+in light and dark mode.
+
+## Headings
+
+The page title above is the only `h1`. The rest of the hierarchy:
+
+## Heading level 2
+
+### Heading level 3
+
+#### Heading level 4
+
+##### Heading level 5
+
+###### Heading level 6
+
+## Text and emphasis
+
+Regular body copy with **bold text**, _italic text_, ***bold italic***,
+~~strikethrough~~, and `inline code`. A [normal link](https://astro.build/)
+and an [external link](https://starlight.astro.build/) sit inline to confirm
+the accent affordance is quiet but legible.
+
+Here is a longer paragraph to check the reading measure and line-height. Mikan
+aims for a calm, dense rhythm: the body sits at a comfortable size with a
+generous line-height, while headings carry tight negative tracking so the
+hierarchy reads as gathered and precise rather than loud.
+
+## Blockquote
+
+> A blockquote should read as a quiet aside — a hairline rule on the inline
+> start, muted text, no background fill.
+>
+> — second paragraph inside the same quote, to confirm spacing.
+
+## Lists
+
+### Unordered
+
+- First item
+- Second item with a slightly longer line to confirm the wrapping rhythm holds
+  across two lines without losing the bullet alignment
+- Third item with nested children
+  - Nested one
+  - Nested two
+    - Deeper still
+
+### Ordered
+
+1. Install the package
+2. Register the plugin
+3. Build the site
+   1. Run the dev server
+   2. Verify the fixtures
+
+### Task list
+
+- [x] Tokens unified onto a spacing scale
+- [x] xAI visual language applied
+- [ ] Light-mode visual pass
+- [ ] Publish to npm
+
+## Horizontal rule
+
+Content above the rule.
+
+---
+
+Content below the rule.
+
+## Inline code and keys
+
+Press <kbd>⌘</kbd> + <kbd>K</kbd> to open search. Inline code like
+`pnpm dev`, `--mk-accent`, and `npx getdesign add x.ai` should stay readable
+without dominating the prose.
+
+## Definition list
+
+<dl>
+  <dt>Canvas</dt>
+  <dd>The single page surface — near-black in dark, paper-white in light.</dd>
+  <dt>Hairline</dt>
+  <dd>The 1px border that carries all elevation cues.</dd>
+</dl>

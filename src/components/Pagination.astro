@@ -1,0 +1,38 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+
+const { dir, pagination } = Astro.locals.starlightRoute;
+const { prev, next } = pagination;
+const isRtl = dir === "rtl";
+---
+
+<div class="pagination-links mikan-pagination-links print:hidden" dir={dir}>
+  {
+    prev ? (
+      <a href={prev.href} rel="prev" class="mikan-pagination-card">
+        <Icon name={isRtl ? "right-arrow" : "left-arrow"} size="1.25rem" />
+        <span>
+          <span class="mikan-pagination-kicker">{Astro.locals.t("page.previousLink")}</span>
+          <br />
+          <span class="link-title">{prev.label}</span>
+        </span>
+      </a>
+    ) : (
+      next && <span class="pagination-placeholder mikan-pagination-placeholder" aria-hidden="true" />
+    )
+  }
+  {
+    next ? (
+      <a href={next.href} rel="next" class="mikan-pagination-card">
+        <span>
+          <span class="mikan-pagination-kicker">{Astro.locals.t("page.nextLink")}</span>
+          <br />
+          <span class="link-title">{next.label}</span>
+        </span>
+        <Icon name={isRtl ? "left-arrow" : "right-arrow"} size="1.25rem" />
+      </a>
+    ) : (
+      prev && <span class="pagination-placeholder mikan-pagination-placeholder" aria-hidden="true" />
+    )
+  }
+</div>

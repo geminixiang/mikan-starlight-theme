@@ -1,0 +1,8 @@
+/* Demo-only styles layered on top of the published theme. */
+
+.mikan-demo-band {
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-radius-md);
+  background: var(--mk-surface-raised);
+  padding: clamp(1.2rem, 3vw, 2rem);
+}

@@ -1,0 +1,49 @@
+---
+/**
+ * A simple call-to-action band for landing pages.
+ *
+ * <CTA
+ *   title="Ready to ship docs?"
+ *   body="Drop the plugin into your Starlight config and go."
+ *   actions={[{ text: "Install", href: "/guide/install/", variant: "primary" }]}
+ * />
+ */
+interface Action {
+  text: string;
+  href: string;
+  variant?: "primary" | "secondary";
+}
+
+interface Props {
+  title?: string;
+  body?: string;
+  actions?: Action[];
+}
+
+const { title, body, actions = [] } = Astro.props;
+---
+
+<section class="mikan-cta not-content">
+  {title && <h2>{title}</h2>}
+  {body && <p>{body}</p>}
+  <slot />
+  {
+    actions.length > 0 && (
+      <div class="mikan-hero-actions">
+        {actions.map((action) => (
+          <a
+            class:list={[
+              "mikan-btn",
+              action.variant === "secondary"
+                ? "mikan-btn-secondary"
+                : "mikan-btn-primary",
+            ]}
+            href={action.href}
+          >
+            {action.text}
+          </a>
+        ))}
+      </div>
+    )
+  }
+</section>

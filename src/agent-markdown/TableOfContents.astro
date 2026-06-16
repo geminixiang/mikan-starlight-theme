@@ -1,0 +1,85 @@
+---
+import StarlightTableOfContents from "@astrojs/starlight/components/TableOfContents.astro";
+import { toMarkdownPath } from "./path-utils";
+import { base as siteBase } from "virtual:mikan-starlight-theme/agent-markdown/config";
+
+const markdownPath = toMarkdownPath(Astro.url.pathname, siteBase);
+---
+
+<StarlightTableOfContents />
+<div class="mikan-markdown-actions" aria-label="Markdown page actions">
+  <a
+    class="mikan-markdown-action"
+    href={markdownPath}
+    title="View as Markdown"
+  >
+    View Markdown
+  </a>
+  <button
+    class="mikan-markdown-action"
+    type="button"
+    aria-label="Copy as Markdown"
+    title="Copy as Markdown"
+    data-mikan-copy-markdown
+    data-markdown-url={markdownPath}
+  >
+    <span data-mikan-copy-markdown-label>Copy</span>
+  </button>
+  <span
+    class="mikan-markdown-status"
+    data-mikan-copy-markdown-status
+    aria-live="polite"></span>
+</div>
+
+<script>
+  const bound = new WeakSet<HTMLButtonElement>();
+
+  function bindCopyMarkdownButtons() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>(
+      "[data-mikan-copy-markdown]",
+    );
+
+    for (const button of buttons) {
+      if (bound.has(button)) continue;
+      bound.add(button);
+
+      button.addEventListener("click", async () => {
+        const markdownUrl = button.dataset.markdownUrl;
+        const container = button.closest(".mikan-markdown-actions");
+        const label = button.querySelector<HTMLElement>(
+          "[data-mikan-copy-markdown-label]",
+        );
+        const status = container?.querySelector<HTMLElement>(
+          "[data-mikan-copy-markdown-status]",
+        );
+        if (!markdownUrl) return;
+
+        const originalText = label?.textContent ?? "Copy";
+        button.disabled = true;
+        if (status) status.textContent = "";
+
+        try {
+          const response = await fetch(markdownUrl);
+          if (!response.ok) {
+            throw new Error(`Markdown request failed with ${response.status}`);
+          }
+          await navigator.clipboard.writeText(await response.text());
+          if (label) label.textContent = "Copied";
+          if (status) status.textContent = "Copied";
+        } catch {
+          if (label) label.textContent = "Failed";
+          if (status) status.textContent = "Copy failed";
+        } finally {
+          window.setTimeout(() => {
+            button.disabled = false;
+            if (label) label.textContent = originalText;
+            if (status) status.textContent = "";
+          }, 1800);
+        }
+      });
+    }
+  }
+
+  document.addEventListener("astro:page-load", bindCopyMarkdownButtons);
+  bindCopyMarkdownButtons();
+</script>

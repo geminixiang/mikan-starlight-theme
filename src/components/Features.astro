@@ -1,0 +1,46 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+
+/**
+ * A bordered feature grid for landing pages.
+ *
+ * <Features
+ *   items={[
+ *     { icon: "pencil", title: "Editorial type", body: "..." },
+ *     { icon: "seti:css", title: "One accent", body: "..." },
+ *   ]}
+ * />
+ *
+ * `icon` accepts any Starlight built-in icon name. Omit it to skip the badge.
+ * The default slot renders inside the grid as well, so custom markup can be
+ * mixed with the `items` prop.
+ */
+interface Feature {
+  icon?: string;
+  title: string;
+  body: string;
+}
+
+interface Props {
+  items?: Feature[];
+}
+
+const { items = [] } = Astro.props;
+---
+
+<div class="mikan-features not-content">
+  {
+    items.map((feature) => (
+      <div class="mikan-feature">
+        {feature.icon && (
+          <span class="mikan-feature-icon" aria-hidden="true">
+            <Icon name={feature.icon as never} size="1.1rem" />
+          </span>
+        )}
+        <h3>{feature.title}</h3>
+        <p>{feature.body}</p>
+      </div>
+    ))
+  }
+  <slot />
+</div>

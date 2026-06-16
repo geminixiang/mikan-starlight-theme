@@ -1,0 +1,1353 @@
+@import "@fontsource-variable/inter/wght.css";
+@import "@fontsource-variable/inter/wght-italic.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/600.css";
+@import "@fontsource/jetbrains-mono/700.css";
+
+/*
+ * mikan-starlight-theme — crisp editorial mono
+ *
+ * Ink-on-paper. Hairline borders, a single blue accent used sparingly,
+ * 6px radii, no glass, no gradients, no glow. Light and dark.
+ *
+ * The --mk-* layer is the source of truth; --sl-* Starlight variables are
+ * derived from it so all theming stays in one place.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces — a soft warm-paper canvas, never pure #fff (easier on the eye). */
+  --mk-bg: #fbfbfa;
+  --mk-bg-soft: #f4f4f2;
+  --mk-surface: #ffffff;
+  --mk-surface-raised: #f4f4f2;
+  --mk-surface-hover: #efefec;
+  --mk-code-bg: #f8f8f6;
+  --mk-code-header: #f1f1ee;
+
+  /* Ink */
+  --mk-text: #18181b;
+  --mk-text-soft: #3f3f46;
+  --mk-text-muted: #71717a;
+  --mk-text-faint: #a1a1aa;
+
+  /* Hairlines. --mk-outline is the translucent button-pill border. */
+  --mk-border: #e4e4e7;
+  --mk-border-strong: #d4d4d8;
+  --mk-outline: rgba(10, 10, 10, 0.18);
+  --mk-outline-hover: rgba(10, 10, 10, 0.38);
+
+  /*
+   * Ink-as-color: the brand "color" is ink-on-canvas. --mk-ink-fill /
+   * --mk-on-ink drive the one filled pill. The blue accent is demoted to
+   * link/active affordance only — never a button or marketing fill.
+   */
+  --mk-ink-fill: #0a0a0a;
+  --mk-on-ink: #ffffff;
+  --mk-accent: #2563eb;
+  --mk-accent-hover: #1d4ed8;
+  --mk-accent-soft: rgba(37, 99, 235, 0.08);
+
+  /* Illustrative accents (sunset / dusk / breeze) — reserved, used sparingly. */
+  --mk-accent-sunset: #ff7a17;
+  --mk-accent-dusk: #7c3aed;
+  --mk-accent-breeze: #a0c3ec;
+
+  /* Highlighter swipe behind h2 — the one deliberate flourish. */
+  --mk-highlight: rgba(255, 122, 23, 0.28);
+
+  /* Geometry — flat by design. Pills are the universal interactive shape. */
+  --mk-radius-sm: 6px;
+  --mk-radius-md: 8px;
+  --mk-radius-lg: 8px;
+  --mk-radius-pill: 9999px;
+  --mk-shadow: none;
+
+  /* Spacing scale — 8px-based rhythm. Every gap/padding/margin uses these. */
+  --mk-space-1: 0.25rem; /*  4px */
+  --mk-space-2: 0.5rem; /*   8px */
+  --mk-space-3: 0.75rem; /* 12px */
+  --mk-space-4: 1rem; /*    16px */
+  --mk-space-5: 1.5rem; /*  24px */
+  --mk-space-6: 2rem; /*    32px */
+  --mk-space-7: 2.5rem; /*  40px */
+  --mk-space-8: 3.5rem; /*  56px */
+
+  /* Type scale — small UI text collapses to three deliberate sizes. */
+  --mk-text-xs: 0.75rem; /* labels, kickers, ToC/section headings, status */
+  --mk-text-sm: 0.85rem; /* sidebar, tabs, buttons, captions, footnotes */
+  --mk-text-base: 0.975rem; /* body copy */
+
+  /*
+   * Two-face voice: sans for display/body, mono UPPERCASE for eyebrows and
+   * micro-labels (the "code comment" label style). Display sizes carry tight
+   * negative tracking; the mono labels carry positive tracking.
+   */
+  --mk-font-mono-label:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  --mk-tracking-label: 0.12em; /* uppercase mono micro-labels */
+  --mk-tracking-display: -0.05em; /* large display headlines */
+  --mk-weight-display: 400; /* the brand never bolds display */
+
+  /* Controls — shared sizing so buttons, search, tabs, actions all align. */
+  --mk-control-pad-y: 0.5rem;
+  --mk-control-pad-x: 1rem;
+  --mk-control-gap: var(--mk-space-2);
+  --mk-control-radius: var(--mk-radius-pill);
+
+  /* Cards / panels — shared inner padding so every surface breathes alike. */
+  --mk-card-pad: var(--mk-space-4);
+  --mk-card-pad-lg: var(--mk-space-5);
+
+  /* Stack rhythm for landing sections. */
+  --mk-section-gap: clamp(2rem, 5vw, 3.5rem);
+
+  /* Starlight mapping */
+  --sl-color-white: var(--mk-text);
+  --sl-color-gray-1: #27272a;
+  --sl-color-gray-2: var(--mk-text-soft);
+  --sl-color-gray-3: var(--mk-text-muted);
+  --sl-color-gray-4: var(--mk-text-faint);
+  --sl-color-gray-5: var(--mk-border-strong);
+  --sl-color-gray-6: var(--mk-border);
+  --sl-color-gray-7: var(--mk-bg-soft);
+  --sl-color-black: var(--mk-bg);
+
+  --sl-color-accent-low: var(--mk-accent-soft);
+  --sl-color-accent: var(--mk-accent);
+  --sl-color-accent-high: var(--mk-accent-hover);
+  --sl-color-text: var(--mk-text-soft);
+  --sl-color-text-accent: var(--mk-accent);
+  --sl-color-text-invert: #ffffff;
+  --sl-color-bg: var(--mk-bg);
+  --sl-color-bg-nav: rgba(251, 251, 250, 0.88);
+  --sl-color-bg-sidebar: var(--mk-bg);
+  --sl-color-bg-inline-code: var(--mk-surface-raised);
+  --sl-color-bg-accent: var(--mk-accent);
+  --sl-color-hairline-light: var(--mk-border);
+  --sl-color-hairline: var(--mk-border);
+  --sl-color-hairline-shade: var(--mk-border-strong);
+  --sl-color-backdrop-overlay: rgba(9, 9, 11, 0.4);
+
+  /* Admonition / callout accents — muted, ink-forward */
+  --sl-color-orange-low: #fff7ed;
+  --sl-color-orange: #c2410c;
+  --sl-color-orange-high: #7c2d12;
+  --sl-color-green-low: #f0fdf4;
+  --sl-color-green: #15803d;
+  --sl-color-green-high: #14532d;
+  --sl-color-blue-low: #eff6ff;
+  --sl-color-blue: #1d4ed8;
+  --sl-color-blue-high: #1e3a8a;
+  --sl-color-purple-low: #faf5ff;
+  --sl-color-purple: #7e22ce;
+  --sl-color-purple-high: #581c87;
+  --sl-color-red-low: #fef2f2;
+  --sl-color-red: #b91c1c;
+  --sl-color-red-high: #7f1d1d;
+
+  --sl-shadow-sm: none;
+  --sl-shadow-md: none;
+  --sl-shadow-lg: none;
+
+  --sl-font:
+    "Inter Variable", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sl-font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+
+  --sl-nav-height: 3.75rem;
+  --sl-nav-pad-x: clamp(1rem, 2.5vw, 1.75rem);
+  --sl-sidebar-width: 16.5rem;
+  --sl-sidebar-pad-x: 0.75rem;
+  --sl-content-width: 48rem;
+  --sl-content-pad-x: clamp(1.1rem, 3vw, 2rem);
+  --sl-content-gap-y: 0.9rem;
+  --sl-line-height: 1.7;
+  --sl-line-height-headings: 1.2;
+  --sl-text-body: 0.975rem;
+  --sl-text-code: 0.85rem;
+  --sl-text-code-sm: 0.8rem;
+  --sl-text-h1: clamp(2rem, 4vw, 2.6rem);
+  --sl-text-h2: 1.5rem;
+  --sl-text-h3: 1.2rem;
+  --sl-text-h4: 1rem;
+
+  --mk-page-top: 1.5rem;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Soft near-black canvas (lifted off pure black) with a charcoal card fill. */
+  --mk-bg: #111113;
+  --mk-bg-soft: #16161a;
+  --mk-surface: #1a1a1e;
+  --mk-surface-raised: #1f1f24;
+  --mk-surface-hover: #25252b;
+  --mk-code-bg: #16161a;
+  --mk-code-header: #1a1a1e;
+
+  --mk-text: #ffffff;
+  --mk-text-soft: #dadbdf;
+  --mk-text-muted: #7d8187;
+  --mk-text-faint: #57595e;
+
+  --mk-border: #212327;
+  --mk-border-strong: #363a3f;
+  --mk-outline: rgba(255, 255, 255, 0.22);
+  --mk-outline-hover: rgba(255, 255, 255, 0.45);
+
+  /* Dark canvas flips the filled pill to white-on-near-black. */
+  --mk-ink-fill: #fbfbfa;
+  --mk-on-ink: #111113;
+  --mk-accent: #a0c3ec;
+  --mk-accent-hover: #c3d8f2;
+  --mk-accent-soft: rgba(160, 195, 236, 0.14);
+
+  /* Brighter, more saturated swipe so it reads on the dark canvas. */
+  --mk-highlight: rgba(255, 122, 23, 0.42);
+
+  --sl-color-gray-1: #f4f4f5;
+  --sl-color-bg-nav: rgba(10, 10, 10, 0.94);
+  --sl-color-text-invert: #0a0a0b;
+  --sl-color-backdrop-overlay: rgba(0, 0, 0, 0.7);
+
+  --sl-color-orange-low: #1f1206;
+  --sl-color-orange: #fb923c;
+  --sl-color-orange-high: #fed7aa;
+  --sl-color-green-low: #07140c;
+  --sl-color-green: #4ade80;
+  --sl-color-green-high: #bbf7d0;
+  --sl-color-blue-low: #0a1020;
+  --sl-color-blue: #60a5fa;
+  --sl-color-blue-high: #bfdbfe;
+  --sl-color-purple-low: #150b20;
+  --sl-color-purple: #c084fc;
+  --sl-color-purple-high: #e9d5ff;
+  --sl-color-red-low: #1f0a0a;
+  --sl-color-red: #f87171;
+  --sl-color-red-high: #fecaca;
+}
+
+html,
+body {
+  background: var(--mk-bg);
+  overflow-x: clip;
+}
+
+body {
+  color: var(--mk-text-soft);
+  font-feature-settings: "cv02", "cv03", "cv04", "kern";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--mk-accent-soft);
+  color: var(--mk-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--mk-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Header ---------- */
+
+/* Keep the nav flat and compact: no divider, no glass, no edge-to-edge spread. */
+.page > header.header {
+  display: flex;
+  justify-content: center;
+  background: var(--sl-color-bg-nav);
+  border-bottom: 0;
+  box-shadow: none;
+}
+
+.mikan-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sl-nav-gap, var(--mk-space-4));
+  width: min(100%, 64rem);
+  height: 100%;
+  margin-inline: auto;
+}
+
+.mikan-title-wrapper {
+  min-width: 0;
+  overflow: clip;
+}
+
+.mikan-header-actions {
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--mk-space-3);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mikan-header-secondary,
+.mikan-mobile-preferences {
+  align-items: center;
+  gap: var(--mk-space-2);
+}
+
+.site-title {
+  color: var(--mk-text);
+  font-weight: 560;
+  letter-spacing: -0.02em;
+}
+
+.site-title:hover {
+  color: var(--mk-text);
+  text-decoration: none;
+}
+
+/* ---------- Search button ---------- */
+
+.mikan-header button[data-open-modal] {
+  width: 10rem;
+  max-width: 10rem;
+  min-width: 0;
+  min-height: 0;
+  height: 2rem;
+  border: 1px solid var(--mk-outline);
+  border-radius: var(--mk-control-radius);
+  background: transparent;
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-xs);
+  padding: 0 var(--mk-space-3);
+  box-shadow: none;
+  transition:
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.mikan-header button[data-open-modal]:hover {
+  border-color: var(--mk-outline-hover);
+  color: var(--mk-text);
+}
+
+.mikan-header button[data-open-modal] kbd {
+  border: 0;
+  background: transparent;
+  color: var(--mk-text-faint);
+}
+
+.mikan-header button[data-open-modal] kbd kbd {
+  padding: 0;
+}
+
+/* ---------- Search dialog (Pagefind modal) ---------- */
+
+/*
+ * Re-skins Starlight's Pagefind dialog to the --mk-* layer. The theme CSS is
+ * unlayered, so these win over Starlight's @layer starlight.core rules without
+ * needing the #starlight__search ID. We mostly retune Starlight's own
+ * --pagefind-ui-* / --sl-search-* vars, then override the few brand misses:
+ * flat field with a thin accent focus (no glow), the mono-caps result-count
+ * eyebrow, and the orange highlighter swipe on matched terms.
+ */
+
+dialog[aria-label="Search"] {
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-radius-lg);
+  background: var(--mk-bg);
+  box-shadow: none;
+}
+
+dialog[aria-label="Search"]::backdrop {
+  background: var(--sl-color-backdrop-overlay);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+dialog[aria-label="Search"] #starlight__search {
+  --pagefind-ui-primary: var(--mk-text);
+  --pagefind-ui-text: var(--mk-text-soft);
+  --pagefind-ui-background: var(--mk-bg);
+  --pagefind-ui-border: var(--mk-border);
+  --pagefind-ui-tag: var(--mk-surface-raised);
+  /* Hairline field border (Pagefind defaults to a heavy 2px). */
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: var(--mk-radius-md);
+  /* Tighter card corners to sit with the theme's 6–8px geometry. */
+  --sl-search-corners: var(--mk-radius-md);
+  /* More air between groups now that no border divides them. */
+  --sl-search-result-spacing: var(--mk-space-6);
+}
+
+/* Mobile close ("Cancel") button — quiet ink, not the loud accent default. */
+dialog[aria-label="Search"] button[data-close-modal] {
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-sm);
+}
+
+dialog[aria-label="Search"] button[data-close-modal]:hover {
+  color: var(--mk-text);
+}
+
+@media (max-width: 50rem) {
+  dialog[aria-label="Search"] {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  /*
+   * Bottom input on mobile: the field sits within thumb reach while results
+   * fill the space above and scroll on their own. The dialog-frame becomes a
+   * fixed-height column that doesn't scroll; the results drawer is the only
+   * scroll surface, and the search form is reordered to the bottom and pinned.
+   */
+  dialog[aria-label="Search"] .dialog-frame {
+    gap: var(--mk-space-3);
+    height: 100%;
+    overflow: hidden;
+  }
+
+  dialog[aria-label="Search"] button[data-close-modal] {
+    position: static;
+    align-self: flex-end;
+    height: auto;
+    padding: 0;
+    flex: none;
+  }
+
+  dialog[aria-label="Search"] .search-container,
+  dialog[aria-label="Search"] #starlight__search {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+  }
+
+  dialog[aria-label="Search"] .pagefind-ui {
+    display: grid !important;
+    grid-template-rows: minmax(0, 1fr) auto;
+    min-height: 0;
+    flex: 1;
+  }
+
+  /* Results drawer first and scrolling; the form last, pinned to the bottom. */
+  dialog[aria-label="Search"] .pagefind-ui__drawer {
+    grid-row: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin-top: 0;
+  }
+
+  dialog[aria-label="Search"] .pagefind-ui__form {
+    grid-row: 2;
+    align-self: end;
+  }
+
+  dialog[aria-label="Search"] #starlight__search {
+    --sl-search-cancel-space: 0px;
+  }
+}
+
+/* Search field — flat, on the raised surface, no box-shadow. */
+dialog[aria-label="Search"] .pagefind-ui__search-input {
+  background: var(--mk-surface);
+  color: var(--mk-text);
+  font-weight: 400;
+  box-shadow: none;
+}
+
+dialog[aria-label="Search"] .pagefind-ui__search-input::placeholder {
+  color: var(--mk-text-faint);
+}
+
+/*
+ * Single, thin focus affordance: the field's own 1px border goes accent.
+ * Suppress the global :focus-visible ring so we don't double up (border + an
+ * outer 2px ring), and drop the input's box-shadow glow.
+ */
+dialog[aria-label="Search"] input:focus {
+  --pagefind-ui-border: var(--mk-accent);
+}
+
+dialog[aria-label="Search"] .pagefind-ui__search-input:focus,
+dialog[aria-label="Search"] .pagefind-ui__search-input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Magnifier + clear (×) glyphs — quiet, ink on interaction. */
+dialog[aria-label="Search"] .pagefind-ui__form::before {
+  --pagefind-ui-text: var(--mk-text-muted);
+}
+
+dialog[aria-label="Search"] .pagefind-ui__search-clear::before {
+  background-color: var(--mk-text-muted);
+}
+
+dialog[aria-label="Search"] .pagefind-ui__search-clear:hover::before {
+  background-color: var(--mk-text);
+}
+
+dialog[aria-label="Search"] .pagefind-ui__search-clear:focus {
+  outline: 1px solid var(--mk-accent);
+}
+
+/* Result-count line — mono uppercase eyebrow, the "code comment" label. */
+dialog[aria-label="Search"] .pagefind-ui__message {
+  color: var(--mk-text-muted);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  font-weight: 400;
+  letter-spacing: var(--mk-tracking-label);
+  text-transform: uppercase;
+}
+
+/*
+ * Borderless groups. Each result group is separated by whitespace alone — the
+ * mono-caps page heading + the spacing below it carry the division, so no card
+ * border (Starlight already zeroes it) and no row separators are needed.
+ * Pagefind's result-inner draws faint 1px lines via a stretch+gap trick; we
+ * collapse the gap and clear the surface so those lines disappear.
+ */
+dialog[aria-label="Search"] .pagefind-ui__result-inner {
+  gap: 0;
+  background: transparent;
+}
+
+dialog[aria-label="Search"] .pagefind-ui__result-title:not(:where(.pagefind-ui__result-nested *)),
+dialog[aria-label="Search"] .pagefind-ui__result-nested {
+  background: transparent;
+}
+
+/*
+ * Hover/focus signalled by a quiet surface tint only — no outline, no border.
+ * Radius keeps the tint from looking like a band edge-to-edge.
+ */
+dialog[aria-label="Search"]
+  .pagefind-ui__result-title:not(:where(.pagefind-ui__result-nested *)):hover,
+dialog[aria-label="Search"] .pagefind-ui__result-nested:hover {
+  outline: none;
+  background: var(--mk-surface-hover);
+  border-radius: var(--mk-radius-sm);
+}
+
+dialog[aria-label="Search"]
+  .pagefind-ui__result-title:not(:where(.pagefind-ui__result-nested *)):focus-within,
+dialog[aria-label="Search"] .pagefind-ui__result-nested:focus-within {
+  outline: none;
+  background: var(--mk-accent-soft);
+  border-radius: var(--mk-radius-sm);
+}
+
+dialog[aria-label="Search"] .pagefind-ui__result-link {
+  --pagefind-ui-text: var(--mk-text);
+  font-weight: 600;
+}
+
+/*
+ * Page icon + tree connector stay — they're typographic markers, not dividers.
+ * Tint them down to hairline tones so they read as quiet structure, not chrome.
+ */
+dialog[aria-label="Search"]
+  .pagefind-ui__result-inner
+  > .pagefind-ui__result-title::before {
+  background: var(--mk-text-faint);
+}
+
+dialog[aria-label="Search"] .pagefind-ui__result-nested::before {
+  background: var(--mk-border-strong);
+}
+
+/* Excerpt copy. */
+dialog[aria-label="Search"] .pagefind-ui__result-excerpt {
+  color: var(--mk-text-muted);
+}
+
+/* Matched terms — the orange highlighter swipe, the one deliberate flourish. */
+dialog[aria-label="Search"] mark {
+  background: var(--mk-highlight);
+  color: var(--mk-text);
+  font-weight: 600;
+  border-radius: 2px;
+  padding: 0 0.12em;
+}
+
+/* ---------- Sidebar ---------- */
+
+.sidebar-pane {
+  border-inline-end: 0;
+  background: var(--sl-color-bg-sidebar);
+}
+
+.sidebar-content {
+  gap: var(--mk-space-3);
+  padding-top: var(--mk-page-top);
+}
+
+.top-level > li + li {
+  margin-top: var(--mk-space-3);
+}
+
+.sidebar-content a,
+.sidebar summary {
+  border-radius: var(--mk-radius-sm);
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-sm);
+  line-height: 1.4;
+  padding: var(--mk-space-2) var(--mk-space-3);
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+}
+
+.sidebar-content a:hover,
+.sidebar-content a:focus,
+.sidebar summary:hover {
+  background: var(--mk-surface-hover);
+  color: var(--mk-text);
+}
+
+.sidebar-content a[aria-current="page"],
+.sidebar-content a[aria-current="page"]:hover,
+.sidebar-content a[aria-current="page"]:focus {
+  background: var(--mk-accent-soft);
+  color: var(--mk-accent);
+  font-weight: 600;
+}
+
+.sidebar-content .large {
+  color: var(--mk-text);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  font-weight: 500;
+  letter-spacing: var(--mk-tracking-label);
+  text-transform: uppercase;
+}
+
+.sidebar ul ul li {
+  border-inline-start-color: var(--mk-border);
+}
+
+/* ---------- Main content frame ---------- */
+
+main {
+  min-width: 0;
+}
+
+.main-frame {
+  background: transparent;
+}
+
+main .content-panel {
+  border: 0;
+}
+
+main > .content-panel:first-child {
+  padding-top: var(--mk-page-top);
+}
+
+main > .content-panel:first-child h1 {
+  margin-top: 0;
+}
+
+/* ---------- Markdown content ---------- */
+
+.sl-markdown-content {
+  color: var(--mk-text-soft);
+  font-size: var(--sl-text-body);
+}
+
+.sl-markdown-content > :first-child {
+  margin-top: 0;
+}
+
+.sl-markdown-content
+  :is(h1, h2, h3, h4, h5, h6):not(:where(.not-content *)) {
+  color: var(--mk-text);
+  letter-spacing: -0.02em;
+}
+
+.sl-markdown-content h1:not(:where(.not-content *)) {
+  font-weight: var(--mk-weight-display);
+  letter-spacing: var(--mk-tracking-display);
+  line-height: 1.05;
+}
+
+/*
+ * h2 — the one deliberate flourish: an accent "highlighter" swipe raked
+ * behind the text, like a hand-drawn marker over a heading. The swipe is a
+ * rotated ::before sitting behind the type (z-index: -1), hugging the text
+ * via width: fit-content so it never spans the full column.
+ */
+.sl-markdown-content h2:not(:where(.not-content *)) {
+  position: relative;
+  z-index: 0;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: var(--mk-space-7);
+  font-size: var(--sl-text-h2);
+  font-weight: 660;
+}
+
+.sl-markdown-content h2:not(:where(.not-content *))::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -0.12em;
+  right: -0.12em;
+  bottom: 0.04em;
+  height: 0.48em;
+  background: var(--mk-highlight);
+  border-radius: 1px;
+  transform: rotate(-1.8deg);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.sl-markdown-content h2:first-child:not(:where(.not-content *)) {
+  margin-top: 0;
+}
+
+.sl-markdown-content h3:not(:where(.not-content *)) {
+  margin-top: var(--mk-space-6);
+  font-size: var(--sl-text-h3);
+  font-weight: 640;
+}
+
+.sl-markdown-content
+  :is(p, li, dd):not(:where(.not-content *)) {
+  line-height: var(--sl-line-height);
+}
+
+.sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--mk-accent);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--mk-accent) 35%, transparent);
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.18em;
+}
+
+.sl-markdown-content a:hover:not(:where(.not-content *)) {
+  color: var(--mk-accent-hover);
+  text-decoration-color: var(--mk-accent);
+}
+
+.sl-markdown-content code:not(:where(.expressive-code *)):not(:where(.not-content *)) {
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-radius-sm);
+  background: var(--sl-color-bg-inline-code);
+  color: var(--mk-text);
+  font-size: var(--sl-text-code-sm);
+  padding: 0.12em 0.36em;
+  overflow-wrap: anywhere;
+}
+
+.sl-markdown-content
+  :is(h1, h2, h3, h4, h5, h6) code:not(:where(.not-content *)) {
+  font-size: 0.9em;
+}
+
+.sl-markdown-content blockquote:not(:where(.not-content *)) {
+  border-inline-start: 3px solid var(--mk-border-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--mk-text-muted);
+  font-style: normal;
+  padding-inline-start: var(--mk-space-4);
+}
+
+.sl-markdown-content blockquote p:not(:where(.not-content *)) {
+  color: inherit;
+}
+
+/* ---------- Tables ---------- */
+
+.sl-markdown-content table:not(:where(.not-content *)) {
+  display: table;
+  width: 100%;
+  border: 1px solid var(--mk-border);
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--mk-radius-md);
+  overflow: hidden;
+  font-size: var(--mk-text-sm);
+  box-shadow: none;
+}
+
+.sl-markdown-content th:not(:where(.not-content *)) {
+  background: var(--mk-surface-raised);
+  color: var(--mk-text);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  font-weight: 500;
+  letter-spacing: var(--mk-tracking-label);
+  text-transform: uppercase;
+}
+
+.sl-markdown-content :is(th, td):not(:where(.not-content *)) {
+  border-bottom: 1px solid var(--mk-border);
+  padding: var(--mk-space-3) var(--mk-space-4);
+  text-align: start;
+}
+
+.sl-markdown-content tr:last-child td:not(:where(.not-content *)) {
+  border-bottom: 0;
+}
+
+/* ---------- Asides / admonitions ---------- */
+
+.sl-markdown-content .starlight-aside:not(:where(.not-content *)) {
+  border: 1px solid var(--mk-border);
+  border-inline-start-width: 3px;
+  border-radius: var(--mk-radius-md);
+  background: var(--mk-surface-raised);
+  padding: var(--mk-card-pad);
+}
+
+.sl-markdown-content .starlight-aside__title:not(:where(.not-content *)) {
+  font-size: var(--mk-text-sm);
+  letter-spacing: 0.01em;
+}
+
+/* ---------- Cards ---------- */
+
+.sl-markdown-content .card,
+.sl-markdown-content .sl-card,
+.card-grid > .card {
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-radius-md);
+  background: var(--mk-surface);
+  padding: var(--mk-card-pad);
+  box-shadow: none;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+.sl-markdown-content a.card:hover,
+.sl-markdown-content a.sl-card:hover,
+.card-grid > a.card:hover {
+  border-color: var(--mk-border-strong);
+  background: var(--mk-surface-raised);
+}
+
+.card .title {
+  color: var(--mk-text);
+  font-weight: 620;
+}
+
+/* ---------- Tabs ---------- */
+
+starlight-tabs:not(:where(.not-content *)) {
+  margin: var(--mk-space-4) 0;
+}
+
+starlight-tabs:not(:where(.not-content *)) [role="tablist"] {
+  border-bottom: 1px solid var(--mk-border);
+  gap: var(--mk-space-4);
+}
+
+starlight-tabs:not(:where(.not-content *)) .tab > [role="tab"] {
+  border-bottom: 2px solid transparent;
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-sm);
+  font-weight: 520;
+  padding: var(--mk-control-pad-y) 0;
+  transition: color 120ms ease;
+}
+
+starlight-tabs:not(:where(.not-content *)) .tab > [role="tab"]:hover {
+  color: var(--mk-text);
+}
+
+starlight-tabs:not(:where(.not-content *))
+  .tab
+  > [role="tab"][aria-selected="true"] {
+  border-bottom-color: var(--mk-accent);
+  color: var(--mk-text);
+  font-weight: 600;
+}
+
+/* ---------- Details ---------- */
+
+.sl-markdown-content details:not(:where(.not-content *)) {
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-radius-md);
+  background: var(--mk-surface);
+}
+
+/* ---------- Code blocks (Expressive Code) ---------- */
+
+.expressive-code {
+  margin-block: var(--mk-space-4);
+}
+
+.expressive-code .frame {
+  box-shadow: none !important;
+}
+
+.expressive-code .frame .header {
+  border-bottom: 1px solid var(--mk-border);
+}
+
+.expressive-code .frame.has-title:not(.is-terminal) .title,
+.expressive-code .frame.is-terminal .title {
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-xs);
+}
+
+.expressive-code .copy button {
+  border-radius: var(--mk-radius-sm);
+}
+
+/* ---------- Right sidebar (TOC) ---------- */
+
+.right-sidebar {
+  border-inline-start: 0;
+}
+
+.right-sidebar-panel {
+  padding-top: var(--mk-page-top);
+}
+
+.right-sidebar-panel h2 {
+  color: var(--mk-text);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  font-weight: 500;
+  letter-spacing: var(--mk-tracking-label);
+  text-transform: uppercase;
+}
+
+.right-sidebar-panel a {
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-sm);
+}
+
+.right-sidebar-panel a:hover,
+.right-sidebar-panel a[aria-current="true"] {
+  color: var(--mk-accent);
+}
+
+/* ---------- Markdown actions (agent-markdown) ---------- */
+
+.mikan-markdown-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mk-space-2);
+  margin-top: var(--mk-space-5);
+}
+
+.mikan-markdown-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mk-control-gap);
+  border: 1px solid var(--mk-outline);
+  border-radius: var(--mk-radius-pill);
+  background: transparent;
+  color: var(--mk-text-muted);
+  cursor: pointer;
+  font: inherit;
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  letter-spacing: 0.04em;
+  padding: 0.3rem var(--mk-space-3);
+  text-decoration: none;
+  transition:
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.mikan-markdown-action:hover,
+.mikan-markdown-action:focus {
+  border-color: var(--mk-outline-hover);
+  color: var(--mk-text);
+}
+
+.mikan-markdown-action:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.mikan-markdown-status {
+  align-self: center;
+  min-height: 1em;
+  color: var(--mk-text-faint);
+  font-size: var(--mk-text-xs);
+}
+
+/* ---------- Mobile menu button ---------- */
+
+starlight-menu-button button {
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-control-radius);
+  background: var(--mk-surface);
+  box-shadow: none;
+  color: var(--mk-text);
+}
+
+.mikan-mobile-preferences {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  column-gap: var(--mk-space-4);
+  margin-top: var(--mk-space-3);
+  padding: var(--mk-space-2) 0;
+}
+
+.mikan-mobile-preferences:empty {
+  display: none;
+}
+
+/* ---------- Pagination (card links) ---------- */
+
+.mikan-pagination-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mk-space-3);
+  margin-top: var(--mk-space-7);
+}
+
+.mikan-pagination-card {
+  display: flex;
+  align-items: center;
+  gap: var(--mk-space-3);
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-radius-md);
+  background: var(--mk-surface);
+  color: var(--mk-text);
+  padding: var(--mk-space-3) var(--mk-card-pad);
+  text-decoration: none;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+.mikan-pagination-card[rel="next"] {
+  justify-content: flex-end;
+  text-align: end;
+}
+
+.mikan-pagination-card:hover {
+  border-color: var(--mk-border-strong);
+  background: var(--mk-surface-raised);
+}
+
+.mikan-pagination-card svg {
+  flex-shrink: 0;
+  color: var(--mk-text-muted);
+}
+
+.mikan-pagination-kicker {
+  color: var(--mk-text-muted);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  font-weight: 500;
+  letter-spacing: var(--mk-tracking-label);
+  text-transform: uppercase;
+}
+
+.mikan-pagination-card .link-title {
+  color: var(--mk-text);
+  font-weight: 580;
+}
+
+.mikan-pagination-placeholder {
+  display: block;
+}
+
+/* ---------- Footer ---------- */
+
+.mikan-footer {
+  margin-top: var(--mk-space-7);
+  padding-bottom: var(--mk-space-5);
+}
+
+.mikan-footer-social {
+  display: flex;
+  justify-content: center;
+  gap: var(--mk-space-2);
+  margin-top: var(--mk-space-5);
+}
+
+.mikan-footer-social a {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--mk-outline);
+  border-radius: var(--mk-radius-pill);
+  background: transparent;
+  color: var(--mk-text-muted);
+  transition:
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.mikan-footer-social a:hover {
+  border-color: var(--mk-outline-hover);
+  color: var(--mk-text);
+}
+
+/* ---------- Landing components ---------- */
+
+/*
+ * On a splash page that uses the Hero component, Starlight still renders the
+ * frontmatter `title` as a standalone #_top <h1> in the first content panel.
+ * That duplicates the Hero headline (and the page would have two <h1>s), so
+ * collapse that first panel when a later panel contains a mikan landing
+ * section. The :has() target is the content wrapper Starlight emits.
+ */
+.main-pane:has(.mikan-hero, .mikan-cta) main > .content-panel:first-child {
+  display: none;
+}
+
+.mikan-hero {
+  display: grid;
+  gap: var(--mk-space-5);
+  padding-block: 0 clamp(1.5rem, 4vw, 3rem);
+}
+
+.mikan-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mk-space-2);
+  width: fit-content;
+  color: var(--mk-text-muted);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  font-weight: 400;
+  letter-spacing: var(--mk-tracking-label);
+  text-transform: uppercase;
+}
+
+.mikan-hero-eyebrow::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: var(--mk-radius-pill);
+  background: var(--mk-accent-sunset);
+}
+
+.mikan-hero h1 {
+  margin: 0;
+  max-width: 16ch;
+  color: var(--mk-text);
+  font-size: clamp(2.6rem, 6.5vw, 5rem);
+  font-weight: var(--mk-weight-display);
+  letter-spacing: var(--mk-tracking-display);
+  line-height: 1;
+}
+
+.mikan-hero p {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--mk-text-muted);
+  font-size: clamp(1.02rem, 2vw, 1.18rem);
+  line-height: 1.6;
+}
+
+.mikan-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mk-space-3);
+  margin-top: var(--mk-space-1);
+}
+
+.mikan-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mk-control-gap);
+  border: 1px solid transparent;
+  border-radius: var(--mk-radius-pill);
+  font-size: var(--mk-text-sm);
+  font-weight: 450;
+  padding: var(--mk-control-pad-y) var(--mk-space-5);
+  text-decoration: none;
+  transition:
+    background 130ms ease,
+    border-color 130ms ease,
+    color 130ms ease;
+}
+
+/* The rare filled pill: ink-on-canvas (white-on-black in dark mode). */
+.mikan-btn-primary {
+  background: var(--mk-ink-fill);
+  color: var(--mk-on-ink);
+}
+
+.mikan-btn-primary:hover {
+  background: var(--mk-ink-fill);
+  opacity: 0.88;
+}
+
+/* The canonical translucent-outline pill — every non-primary CTA. */
+.mikan-btn-secondary {
+  border-color: var(--mk-outline);
+  background: transparent;
+  color: var(--mk-text);
+}
+
+.mikan-btn-secondary:hover {
+  border-color: var(--mk-outline-hover);
+  background: transparent;
+}
+
+/*
+ * Starlight's built-in <LinkButton> ships its own variant colors keyed off
+ * --sl-color-text-accent / --sl-color-black, which clash with the mikan
+ * palette (the primary label can vanish against the fill). Re-skin its three
+ * variants to match the mikan pill system.
+ */
+.sl-link-button.primary {
+  border-color: var(--mk-ink-fill);
+  background: var(--mk-ink-fill);
+  color: var(--mk-on-ink);
+}
+
+.sl-link-button.primary:hover {
+  opacity: 0.88;
+}
+
+.sl-link-button.secondary {
+  border-color: var(--mk-outline);
+  color: var(--mk-text);
+}
+
+.sl-link-button.secondary:hover {
+  border-color: var(--mk-outline-hover);
+}
+
+.sl-link-button.minimal {
+  color: var(--mk-text);
+}
+
+.mikan-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0;
+  margin-block: var(--mk-section-gap);
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-radius-md);
+  overflow: hidden;
+}
+
+.mikan-feature {
+  display: grid;
+  gap: var(--mk-space-2);
+  align-content: start;
+  padding: var(--mk-card-pad-lg);
+}
+
+.mikan-feature:first-child {
+  border-inline-start: 0;
+}
+
+.mikan-feature-icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: var(--mk-space-1);
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-radius-sm);
+  color: var(--mk-accent);
+}
+
+.mikan-feature h3 {
+  margin: 0;
+  color: var(--mk-text);
+  font-size: var(--mk-text-base);
+  font-weight: 620;
+  letter-spacing: -0.01em;
+}
+
+.mikan-feature p {
+  margin: 0;
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-sm);
+  line-height: 1.55;
+}
+
+.mikan-cta {
+  display: grid;
+  gap: var(--mk-space-3);
+  justify-items: start;
+  margin-block: var(--mk-section-gap);
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-radius-lg);
+  background: var(--mk-surface-raised);
+  padding: var(--mk-card-pad-lg);
+}
+
+.mikan-cta h2 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  color: var(--mk-text);
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: var(--mk-weight-display);
+  letter-spacing: var(--mk-tracking-display);
+  line-height: 1.05;
+}
+
+.mikan-cta p {
+  margin: 0;
+  max-width: 50ch;
+  color: var(--mk-text-muted);
+  line-height: 1.6;
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 50rem) {
+  :root {
+    --sl-nav-height: 3.5rem;
+  }
+
+
+  .mikan-header button[data-open-modal] {
+    width: 2rem;
+    max-width: 2rem;
+    padding: 0;
+    aspect-ratio: 1;
+    justify-content: center;
+    border-radius: var(--mk-radius-pill);
+  }
+
+  .mikan-pagination-links {
+    grid-template-columns: 1fr;
+  }
+
+  .mikan-pagination-placeholder {
+    display: none;
+  }
+
+  .mikan-feature {
+    border-inline-start: 0;
+  }
+
+  .sl-markdown-content table:not(:where(.not-content *)) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}

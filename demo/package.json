@@ -1,0 +1,23 @@
+{
+  "name": "mikan-starlight-theme-demo",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/starlight": "^0.39.2",
+    "astro": "^6.3.5",
+    "remark-gfm": "^4.0.1",
+    "starlight-theme-mikan": "workspace:*"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "typescript": "^5.8.3"
+  }
+}

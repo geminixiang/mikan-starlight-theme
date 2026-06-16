@@ -1,0 +1,129 @@
+---
+title: Components & tables
+description: Starlight built-in components and tables, themed by mikan.
+---
+
+import {
+  Aside,
+  Badge,
+  Card,
+  CardGrid,
+  FileTree,
+  LinkButton,
+  LinkCard,
+  Steps,
+} from "@astrojs/starlight/components";
+
+Starlight's built-in components inherit the mikan visual language — hairline
+borders, 8px cards, no shadows.
+
+## Admonitions
+
+All five aside variants, including a custom title:
+
+:::note
+A note aside — the default informational callout.
+:::
+
+:::tip
+A tip aside — for helpful, optional guidance.
+:::
+
+:::caution
+A caution aside — dark mode separates background, surface, and border layers so
+nothing reads as muddy gray.
+:::
+
+:::danger
+A danger aside — the highest-emphasis warning.
+:::
+
+:::note[Custom title]
+An aside with a custom title instead of the default label.
+:::
+
+## Cards and grids
+
+<CardGrid>
+  <Card title="Two-face type" icon="open-book">
+    Weight-400 display with negative tracking; JetBrains Mono uppercase labels.
+  </Card>
+  <Card title="Ink as color" icon="seti:default">
+    White-on-black, black-on-white. Pills everywhere; blue is a quiet link.
+  </Card>
+  <Card title="Light and dark" icon="moon">
+    True ink-on-paper light mode and a near-black dark mode.
+  </Card>
+  <Card title="Agent Markdown" icon="rocket">
+    Every page gets a `.md` route and a copy-for-LLM action.
+  </Card>
+</CardGrid>
+
+## Link cards and buttons
+
+<LinkCard
+  title="Install the theme"
+  description="Add the plugin to your Starlight config."
+  href="/guide/install/"
+/>
+<LinkCard
+  title="Markdown elements"
+  description="See every rendered Markdown construct."
+  href="/guide/markdown/"
+/>
+
+<LinkButton href="/guide/install/">Get started</LinkButton>
+<LinkButton href="/guide/code/" variant="secondary">
+  View code samples
+</LinkButton>
+
+## Steps
+
+<Steps>
+
+1. Install `starlight-theme-mikan` next to Astro Starlight.
+
+2. Register `mikanTheme()` and `mikanAgentMarkdown()` in your config.
+
+3. Set the code theme:
+
+   ```js
+   markdown: { shikiConfig: { theme: mikanCodeTheme } }
+   ```
+
+4. Run the dev server and verify these fixtures.
+
+</Steps>
+
+## File tree
+
+<FileTree>
+
+- src/
+  - components/
+    - **Hero.astro** the landing hero
+    - Features.astro
+    - CTA.astro
+  - styles/
+    - index.css the design system
+  - themes/
+    - mikan.ts
+  - index.ts
+- package.json
+
+</FileTree>
+
+## Badges
+
+Status chips: <Badge text="New" variant="success" />
+<Badge text="Beta" variant="caution" /> <Badge text="Deprecated" variant="danger" />
+<Badge text="Default" variant="default" />
+
+## Table
+
+| Token            | Light       | Dark        | Use                       |
+| ---------------- | ----------- | ----------- | ------------------------- |
+| `--mk-bg`        | `#ffffff`   | `#0a0a0a`   | Page canvas               |
+| `--mk-surface`   | `#ffffff`   | `#191919`   | Card fill                 |
+| `--mk-ink-fill`  | `#0a0a0a`   | `#ffffff`   | The one filled pill       |
+| `--mk-accent`    | `#2563eb`   | `#a0c3ec`   | Quiet link / active state |

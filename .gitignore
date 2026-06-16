@@ -1,0 +1,8 @@
+node_modules
+.claude
+.dist
+dist
+.astro
+.vercel
+.DS_Store
+*.tgz

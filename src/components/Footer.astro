@@ -1,0 +1,30 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+import Pagination from "virtual:starlight/components/Pagination";
+import config from "virtual:starlight/user-config";
+
+const socialLinks = Array.isArray(config.social)
+  ? config.social
+  : config.social && typeof config.social === "object"
+    ? Object.entries(config.social).map(([icon, href]) => ({
+        href: String(href),
+        icon,
+        label: icon,
+      }))
+    : [];
+---
+
+<footer class="mikan-footer print:hidden">
+  <Pagination />
+  {
+    socialLinks.length > 0 && (
+      <nav class="mikan-footer-social" aria-label="Project links">
+        {socialLinks.map(({ label, href, icon }) => (
+          <a {href} rel="me" aria-label={label} title={label}>
+            <Icon name={icon as never} />
+          </a>
+        ))}
+      </nav>
+    )
+  }
+</footer>
