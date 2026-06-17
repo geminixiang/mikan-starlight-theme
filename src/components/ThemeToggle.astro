@@ -1,0 +1,64 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+---
+
+<mikan-theme-toggle>
+  <button
+    type="button"
+    class="mikan-theme-toggle"
+    aria-label="Toggle dark mode"
+    title="Toggle dark mode"
+  >
+    <span
+      class="mikan-theme-toggle__icon mikan-theme-toggle__icon--light"
+      aria-hidden="true"
+    >
+      <Icon name="sun" />
+    </span>
+    <span
+      class="mikan-theme-toggle__icon mikan-theme-toggle__icon--dark"
+      aria-hidden="true"
+    >
+      <Icon name="moon" />
+    </span>
+  </button>
+</mikan-theme-toggle>
+
+<script>
+  const storageKey = "starlight-theme";
+
+  function updateThemeToggles(theme = document.documentElement.dataset.theme) {
+    const isDark = theme === "dark";
+    document.querySelectorAll("mikan-theme-toggle button").forEach((button) => {
+      button.setAttribute("aria-pressed", String(isDark));
+      button.setAttribute(
+        "aria-label",
+        isDark ? "Switch to light mode" : "Switch to dark mode",
+      );
+      button.setAttribute(
+        "title",
+        isDark ? "Switch to light mode" : "Switch to dark mode",
+      );
+    });
+  }
+
+  if (!customElements.get("mikan-theme-toggle")) {
+    customElements.define(
+      "mikan-theme-toggle",
+      class extends HTMLElement {
+        connectedCallback() {
+          updateThemeToggles();
+          this.querySelector("button")?.addEventListener("click", () => {
+            const next =
+              document.documentElement.dataset.theme === "dark"
+                ? "light"
+                : "dark";
+            document.documentElement.dataset.theme = next;
+            localStorage.setItem(storageKey, next);
+            updateThemeToggles(next);
+          });
+        }
+      },
+    );
+  }
+</script>

@@ -295,6 +295,41 @@ body {
   gap: var(--mk-space-2);
 }
 
+.mikan-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--mk-outline);
+  border-radius: var(--mk-control-radius);
+  background: transparent;
+  color: var(--mk-text-muted);
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.mikan-theme-toggle:hover {
+  border-color: var(--mk-outline-hover);
+  color: var(--mk-text);
+}
+
+.mikan-theme-toggle__icon {
+  display: none;
+}
+
+:root[data-theme="light"] .mikan-theme-toggle__icon--light,
+:root[data-theme="dark"] .mikan-theme-toggle__icon--dark {
+  display: inline-flex;
+}
+
+.mikan-theme-toggle svg {
+  width: 1rem;
+  height: 1rem;
+}
+
 .site-title {
   color: var(--mk-text);
   font-weight: 560;
@@ -520,7 +555,8 @@ dialog[aria-label="Search"] .pagefind-ui__result-inner {
   background: transparent;
 }
 
-dialog[aria-label="Search"] .pagefind-ui__result-title:not(:where(.pagefind-ui__result-nested *)),
+dialog[aria-label="Search"]
+  .pagefind-ui__result-title:not(:where(.pagefind-ui__result-nested *)),
 dialog[aria-label="Search"] .pagefind-ui__result-nested {
   background: transparent;
 }
@@ -538,7 +574,9 @@ dialog[aria-label="Search"] .pagefind-ui__result-nested:hover {
 }
 
 dialog[aria-label="Search"]
-  .pagefind-ui__result-title:not(:where(.pagefind-ui__result-nested *)):focus-within,
+  .pagefind-ui__result-title:not(
+    :where(.pagefind-ui__result-nested *)
+  ):focus-within,
 dialog[aria-label="Search"] .pagefind-ui__result-nested:focus-within {
   outline: none;
   background: var(--mk-accent-soft);
@@ -667,8 +705,7 @@ main > .content-panel:first-child h1 {
   margin-top: 0;
 }
 
-.sl-markdown-content
-  :is(h1, h2, h3, h4, h5, h6):not(:where(.not-content *)) {
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6):not(:where(.not-content *)) {
   color: var(--mk-text);
   letter-spacing: -0.02em;
 }
@@ -720,8 +757,7 @@ main > .content-panel:first-child h1 {
   font-weight: 640;
 }
 
-.sl-markdown-content
-  :is(p, li, dd):not(:where(.not-content *)) {
+.sl-markdown-content :is(p, li, dd):not(:where(.not-content *)) {
   line-height: var(--sl-line-height);
 }
 
@@ -739,7 +775,8 @@ main > .content-panel:first-child h1 {
   text-decoration-color: var(--mk-accent);
 }
 
-.sl-markdown-content code:not(:where(.expressive-code *)):not(:where(.not-content *)) {
+.sl-markdown-content
+  code:not(:where(.expressive-code *)):not(:where(.not-content *)) {
   border: 1px solid var(--mk-border);
   border-radius: var(--mk-radius-sm);
   background: var(--sl-color-bg-inline-code);
@@ -750,7 +787,8 @@ main > .content-panel:first-child h1 {
 }
 
 .sl-markdown-content
-  :is(h1, h2, h3, h4, h5, h6) code:not(:where(.not-content *)) {
+  :is(h1, h2, h3, h4, h5, h6)
+  code:not(:where(.not-content *)) {
   font-size: 0.9em;
 }
 
@@ -1322,7 +1360,6 @@ starlight-menu-button button {
   :root {
     --sl-nav-height: 3.5rem;
   }
-
 
   .mikan-header button[data-open-modal] {
     width: 2rem;

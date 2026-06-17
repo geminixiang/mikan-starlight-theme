@@ -4,7 +4,8 @@ import config from "virtual:starlight/user-config";
 import LanguageSelect from "virtual:starlight/components/LanguageSelect";
 import Search from "virtual:starlight/components/Search";
 import SiteTitle from "virtual:starlight/components/SiteTitle";
-import ThemeSelect from "virtual:starlight/components/ThemeSelect";
+
+import ThemeToggle from "./ThemeToggle.astro";
 
 const shouldRenderSearch =
   config.pagefind ||
@@ -18,7 +19,7 @@ const shouldRenderSearch =
   <div class="mikan-header-actions sl-flex print:hidden">
     {shouldRenderSearch && <Search />}
     <div class="sl-hidden md:sl-flex mikan-header-secondary">
-      <ThemeSelect />
+      <ThemeToggle />
       <LanguageSelect />
     </div>
   </div>
