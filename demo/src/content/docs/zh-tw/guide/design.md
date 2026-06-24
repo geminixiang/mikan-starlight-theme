@@ -1,6 +1,6 @@
 ---
-title: "Design"
-description: "The design contract behind the mikan Starlight theme."
+title: "設計"
+description: "mikan Starlight 主題背後的設計契約。"
 url: "https://mikan-starlight-theme.local/guide/design/"
 ---
 
