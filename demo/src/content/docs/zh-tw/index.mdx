@@ -5,8 +5,6 @@ template: splash
 ---
 
 import Hero from "starlight-theme-mikan/components/Hero.astro";
-import Features from "starlight-theme-mikan/components/Features.astro";
-import CTA from "starlight-theme-mikan/components/CTA.astro";
 
 <Hero
   eyebrow="Astro Starlight 主題"
@@ -15,38 +13,5 @@ import CTA from "starlight-theme-mikan/components/CTA.astro";
   actions={[
     { text: "開始使用", href: "/zh-tw/guide/theme-setup/", variant: "primary" },
     { text: "查看測試頁", href: "/zh-tw/guide/markdown/", variant: "secondary" },
-  ]}
-/>
-
-<Features
-  items={[
-    {
-      icon: "open-book",
-      title: "雙字體系統",
-      body: "Inter 用於內文與標題；JetBrains Mono 大寫用於 eyebrow、表頭與標籤。",
-    },
-    {
-      icon: "forward-slash",
-      title: "以墨色為品牌色",
-      body: "黑白互換、到處使用膠囊外框；藍色只作為安靜的連結提示。",
-    },
-    {
-      icon: "moon",
-      title: "亮暗皆完整",
-      body: "真正的紙墨亮色模式，以及避免混濁灰階的近黑暗色模式。",
-    },
-    {
-      icon: "rocket",
-      title: "Agent-ready Markdown",
-      body: "每個頁面都有 .md 路由，目錄下方也有可複製給 LLM 的 Markdown 動作。",
-    },
-  ]}
-/>
-
-<CTA
-  title="放進 Starlight 設定即可"
-  body="一個 plugin 安裝 CSS、元件覆寫、程式碼主題與 agent Markdown 路由。"
-  actions={[
-    { text: "主題設定", href: "/zh-tw/guide/theme-setup/", variant: "primary" },
   ]}
 />

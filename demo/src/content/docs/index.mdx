@@ -5,8 +5,6 @@ template: splash
 ---
 
 import Hero from "starlight-theme-mikan/components/Hero.astro";
-import Features from "starlight-theme-mikan/components/Features.astro";
-import CTA from "starlight-theme-mikan/components/CTA.astro";
 
 <Hero
   eyebrow="Astro Starlight theme"
@@ -15,38 +13,5 @@ import CTA from "starlight-theme-mikan/components/CTA.astro";
   actions={[
     { text: "Get started", href: "/guide/theme-setup/", variant: "primary" },
     { text: "View fixtures", href: "/guide/markdown/", variant: "secondary" },
-  ]}
-/>
-
-<Features
-  items={[
-    {
-      icon: "open-book",
-      title: "Two-face type",
-      body: "Weight-400 Inter display with negative tracking; JetBrains Mono UPPERCASE for every eyebrow and label.",
-    },
-    {
-      icon: "forward-slash",
-      title: "Ink as color",
-      body: "White-on-black, black-on-white. Pill outlines everywhere; the blue is a quiet link affordance, nothing more.",
-    },
-    {
-      icon: "moon",
-      title: "Light and dark",
-      body: "True ink-on-paper light mode and a near-black dark mode that avoids muddy grays.",
-    },
-    {
-      icon: "rocket",
-      title: "Agent-ready Markdown",
-      body: "Every page gets a .md route and a copy-for-LLM action below the table of contents.",
-    },
-  ]}
-/>
-
-<CTA
-  title="Drop it into your Starlight config"
-  body="One plugin installs the CSS, component overrides, code theme, and agent Markdown routes."
-  actions={[
-    { text: "Theme Setup", href: "/guide/theme-setup/", variant: "primary" },
   ]}
 />

@@ -1368,7 +1368,8 @@ starlight-menu-button button {
  * collapse that first panel when a later panel contains a mikan landing
  * section. The :has() target is the content wrapper Starlight emits.
  */
-.main-pane:has(.mikan-hero, .mikan-cta) main > .content-panel:first-child {
+.main-pane:has(.mikan-hero, .mikan-cta) main > .content-panel:first-child,
+.main-pane:has(.mikan-hero, .mikan-cta) .mikan-pagination-links {
   display: none;
 }
 
