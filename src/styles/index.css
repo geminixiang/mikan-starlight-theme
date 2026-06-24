@@ -277,7 +277,9 @@
   --mk-highlight: rgba(255, 122, 23, 0.42);
 
   --sl-color-gray-1: #f4f4f5;
-  --sl-color-bg-nav: rgba(10, 10, 10, 0.94);
+  /* Match the body canvas (--mk-bg #111113), kept translucent for the glass nav.
+     Previously #0a0a0a, which read pure-black against the purple-black body. */
+  --sl-color-bg-nav: rgba(17, 17, 19, 0.9);
   --sl-color-text-invert: #0a0a0b;
   --sl-color-backdrop-overlay: rgba(0, 0, 0, 0.7);
 
