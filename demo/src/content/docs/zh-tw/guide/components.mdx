@@ -1,0 +1,133 @@
+---
+title: 元件與表格
+description: 使用 mikan 主題呈現 Starlight 內建元件與表格。
+---
+
+import {
+  Aside,
+  Badge,
+  Card,
+  CardGrid,
+  FileTree,
+  LinkButton,
+  LinkCard,
+  Steps,
+} from "@astrojs/starlight/components";
+
+Starlight 內建元件會繼承 mikan 視覺語言：細線邊框、8px 卡片、沒有陰影。
+
+## 提示框
+
+五種 aside 變體，以及自訂標題：
+
+:::note
+Note aside：預設的資訊提示。
+:::
+
+:::tip
+Tip aside：適合有幫助但非必要的建議。
+:::
+
+:::caution
+Caution aside：暗色模式會分開背景、表面與邊框層，避免看起來混濁。
+:::
+
+:::danger
+Danger aside：最高強度的警告。
+:::
+
+:::note[自訂標題]
+這個 aside 使用自訂標題，而不是預設標籤。
+:::
+
+## 卡片與網格
+
+<CardGrid>
+  <Card title="雙字體系統" icon="open-book">
+    Weight-400 標題搭配負字距；JetBrains Mono 大寫標籤。
+  </Card>
+  <Card title="以墨色為品牌色" icon="forward-slash">
+    黑白互換、膠囊到處都是；藍色只是安靜的連結提示。
+  </Card>
+  <Card title="亮暗皆完整" icon="moon">
+    真正的紙墨亮色模式，以及近黑暗色模式。
+  </Card>
+  <Card title="Agent Markdown" icon="rocket">
+    每個頁面都有 `.md` 路由與複製給 LLM 的動作。
+  </Card>
+</CardGrid>
+
+## 連結卡片與按鈕
+
+<LinkCard
+  title="主題設定"
+  description="把 plugin 加到 Starlight 設定。"
+  href="/zh-tw/guide/theme-setup/"
+/>
+<LinkCard
+  title="Markdown 元素"
+  description="查看所有 Markdown 結構的呈現。"
+  href="/zh-tw/guide/markdown/"
+/>
+
+<LinkButton href="/zh-tw/guide/theme-setup/">開始使用</LinkButton>
+<LinkButton href="/zh-tw/guide/code/" variant="secondary">
+  查看程式碼範例
+</LinkButton>
+
+## 步驟
+
+<Steps>
+
+1. 在 Astro Starlight 專案中安裝 `starlight-theme-mikan`。
+
+2. 在設定中註冊 `mikanTheme()` 與 `mikanAgentMarkdown()`。
+
+3. 設定程式碼主題：
+
+   ```js
+   markdown: {
+     shikiConfig: {
+       theme: mikanCodeTheme;
+     }
+   }
+   ```
+
+4. 啟動開發伺服器並檢查這些測試頁。
+
+</Steps>
+
+## 檔案樹
+
+<FileTree>
+
+- src/
+  - components/
+    - **Hero.astro** landing hero
+    - Features.astro
+    - CTA.astro
+  - styles/
+    - index.css design system
+  - themes/
+    - mikan.ts
+  - index.ts
+- package.json
+
+</FileTree>
+
+## Badges
+
+狀態標籤： <Badge text="New" variant="success" />
+
+<Badge text="Beta" variant="caution" />
+<Badge text="Deprecated" variant="danger" />
+<Badge text="Default" variant="default" />
+
+## 表格
+
+| Token           | 亮色      | 暗色      | 用途                 |
+| --------------- | --------- | --------- | -------------------- |
+| `--mk-bg`       | `#ffffff` | `#0a0a0a` | 頁面 canvas          |
+| `--mk-surface`  | `#ffffff` | `#191919` | 卡片填色             |
+| `--mk-ink-fill` | `#0a0a0a` | `#ffffff` | 唯一的填色膠囊按鈕   |
+| `--mk-accent`   | `#2563eb` | `#a0c3ec` | 安靜連結 / active 狀態 |

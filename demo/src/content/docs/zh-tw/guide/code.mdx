@@ -1,0 +1,163 @@
+---
+title: 程式碼與指令
+description: 多語言語法高亮、Expressive Code 功能與同步套件管理器分頁。
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+`mikanCodeTheme` 是低彩度的編輯風配色：藍色保留給關鍵字、綠色給字串、紫色給常數，註解則保持低調。這些範例用來確認 token 顏色在不同語言、亮色與暗色模式中都穩定可讀。
+
+## 多語言語法
+
+```ts title="theme.ts"
+import type { StarlightPlugin } from "./types";
+
+export function mikanTheme(options: { dark?: boolean } = {}): StarlightPlugin {
+  const { dark = true } = options;
+  return {
+    name: "starlight-theme-mikan",
+    hooks: { "config:setup": () => console.log(`dark=${dark}`) },
+  };
+}
+```
+
+```python title="hello.py"
+from dataclasses import dataclass
+
+@dataclass
+class Theme:
+    name: str
+    accent: str = "#2563eb"
+
+    def describe(self) -> str:
+        return f"{self.name} accent={self.accent}"
+
+print(Theme("mikan").describe())
+```
+
+```rust title="main.rs"
+#[derive(Debug)]
+struct Theme<'a> {
+    name: &'a str,
+    accent: u32,
+}
+
+fn main() {
+    let theme = Theme { name: "mikan", accent: 0x2563eb };
+    println!("{theme:?}");
+}
+```
+
+```json title="tokens.json"
+{
+  "color": { "accent": "#2563eb", "canvas": "#0a0a0a" },
+  "radius": { "pill": 9999, "card": 8 },
+  "enabled": true
+}
+```
+
+```css title="snippet.css"
+.mikan-btn {
+  border-radius: var(--mk-radius-pill);
+  font-weight: 450;
+}
+```
+
+## Expressive Code 功能
+
+包含新增、刪除與高亮行的 diff：
+
+```js title="config.mjs" ins={4} del={3} {6}
+export default {
+  integrations: [
+    mikanTheme({ accent: "orange" }),
+    mikanTheme({ accent: "ink" }),
+  ],
+  markdown: { shikiConfig: { theme: mikanCodeTheme } },
+};
+```
+
+終端機框線（沒有 language id，`sh`/`bash` 會顯示 terminal chrome）：
+
+```bash
+git clone https://github.com/geminixiang/mikan-starlight-theme
+cd mikan-starlight-theme
+pnpm install && pnpm dev
+```
+
+行號與標記範圍：
+
+```ts showLineNumbers {2-3}
+const themes = ["mikan-light", "mikan-dark"];
+const light = themes[0];
+const dark = themes[1];
+export { light, dark };
+```
+
+## 安裝指令（同步分頁）
+
+選一次套件管理器即可；同一站台中所有使用 `syncKey` 的分頁都會同步選項。
+
+<Tabs syncKey="pkg">
+  <TabItem label="npm">
+
+```sh
+npm install starlight-theme-mikan @astrojs/starlight
+```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+```sh
+pnpm add starlight-theme-mikan @astrojs/starlight
+```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+```sh
+yarn add starlight-theme-mikan @astrojs/starlight
+```
+
+  </TabItem>
+  <TabItem label="bun">
+
+```sh
+bun add starlight-theme-mikan @astrojs/starlight
+```
+
+  </TabItem>
+</Tabs>
+
+啟動開發伺服器，同樣使用同步選項：
+
+<Tabs syncKey="pkg">
+  <TabItem label="npm">
+
+```sh
+npm run dev
+```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+```sh
+pnpm dev
+```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+```sh
+yarn dev
+```
+
+  </TabItem>
+  <TabItem label="bun">
+
+```sh
+bun run dev
+```
+
+  </TabItem>
+</Tabs>
