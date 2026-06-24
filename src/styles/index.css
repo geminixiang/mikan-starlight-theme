@@ -55,6 +55,39 @@
   --mk-accent-dusk: #7c3aed;
   --mk-accent-breeze: #a0c3ec;
 
+  /* Badges — noticeable, but dusty enough to stay in the system. */
+  --mk-badge-default-bg: var(--mk-ink-fill);
+  --mk-badge-default-border: var(--mk-ink-fill);
+  --mk-badge-default-text: var(--mk-on-ink);
+  --mk-badge-note-bg: #e8eef5;
+  --mk-badge-note-border: #8aa8c9;
+  --mk-badge-note-text: #24415f;
+  --mk-badge-success-bg: #dfe8dd;
+  --mk-badge-success-border: #8ea18b;
+  --mk-badge-success-text: #2f3a2d;
+  --mk-badge-caution-bg: #fff0e4;
+  --mk-badge-caution-border: #d38a52;
+  --mk-badge-caution-text: #7a3e0b;
+  --mk-badge-danger-bg: #f7e6e3;
+  --mk-badge-danger-border: #bf7a70;
+  --mk-badge-danger-text: #73322c;
+  --mk-badge-tip-bg: #eee9f7;
+  --mk-badge-tip-border: #a493c7;
+  --mk-badge-tip-text: #4d3f6d;
+
+  --mk-aside-note-bg: rgba(160, 195, 236, 0.16);
+  --mk-aside-note-border: #8aa8c9;
+  --mk-aside-note-text: #24415f;
+  --mk-aside-tip-bg: rgba(196, 181, 253, 0.16);
+  --mk-aside-tip-border: #a493c7;
+  --mk-aside-tip-text: #4d3f6d;
+  --mk-aside-caution-bg: rgba(255, 194, 133, 0.22);
+  --mk-aside-caution-border: #d38a52;
+  --mk-aside-caution-text: #7a3e0b;
+  --mk-aside-danger-bg: rgba(191, 122, 112, 0.16);
+  --mk-aside-danger-border: #bf7a70;
+  --mk-aside-danger-text: #73322c;
+
   /* Highlighter swipe behind h2 — the one deliberate flourish. */
   --mk-highlight: rgba(255, 122, 23, 0.28);
 
@@ -208,6 +241,38 @@
   --mk-accent-hover: #c3d8f2;
   --mk-accent-soft: rgba(160, 195, 236, 0.14);
 
+  --mk-badge-default-bg: var(--mk-ink-fill);
+  --mk-badge-default-border: var(--mk-ink-fill);
+  --mk-badge-default-text: var(--mk-on-ink);
+  --mk-badge-note-bg: #121a24;
+  --mk-badge-note-border: #506985;
+  --mk-badge-note-text: #a0c3ec;
+  --mk-badge-success-bg: #151c16;
+  --mk-badge-success-border: #536454;
+  --mk-badge-success-text: #c5d4c3;
+  --mk-badge-caution-bg: #26190e;
+  --mk-badge-caution-border: #9c6639;
+  --mk-badge-caution-text: #ffc285;
+  --mk-badge-danger-bg: #261313;
+  --mk-badge-danger-border: #985d56;
+  --mk-badge-danger-text: #e6b2ab;
+  --mk-badge-tip-bg: #1a1424;
+  --mk-badge-tip-border: #655384;
+  --mk-badge-tip-text: #c4b5fd;
+
+  --mk-aside-note-bg: rgba(160, 195, 236, 0.09);
+  --mk-aside-note-border: #506985;
+  --mk-aside-note-text: #a0c3ec;
+  --mk-aside-tip-bg: rgba(196, 181, 253, 0.09);
+  --mk-aside-tip-border: #655384;
+  --mk-aside-tip-text: #c4b5fd;
+  --mk-aside-caution-bg: rgba(255, 194, 133, 0.1);
+  --mk-aside-caution-border: #9c6639;
+  --mk-aside-caution-text: #ffc285;
+  --mk-aside-danger-bg: rgba(230, 178, 171, 0.08);
+  --mk-aside-danger-border: #985d56;
+  --mk-aside-danger-text: #e6b2ab;
+
   /* Brighter, more saturated swipe so it reads on the dark canvas. */
   --mk-highlight: rgba(255, 122, 23, 0.42);
 
@@ -328,6 +393,36 @@ body {
 .mikan-theme-toggle svg {
   width: 1rem;
   height: 1rem;
+}
+
+:root {
+  --sl-badge-default-bg: var(--mk-badge-default-bg);
+  --sl-badge-default-border: var(--mk-badge-default-border);
+  --sl-badge-default-text: var(--mk-badge-default-text);
+  --sl-badge-note-bg: var(--mk-badge-note-bg);
+  --sl-badge-note-border: var(--mk-badge-note-border);
+  --sl-badge-note-text: var(--mk-badge-note-text);
+  --sl-badge-success-bg: var(--mk-badge-success-bg);
+  --sl-badge-success-border: var(--mk-badge-success-border);
+  --sl-badge-success-text: var(--mk-badge-success-text);
+  --sl-badge-caution-bg: var(--mk-badge-caution-bg);
+  --sl-badge-caution-border: var(--mk-badge-caution-border);
+  --sl-badge-caution-text: var(--mk-badge-caution-text);
+  --sl-badge-danger-bg: var(--mk-badge-danger-bg);
+  --sl-badge-danger-border: var(--mk-badge-danger-border);
+  --sl-badge-danger-text: var(--mk-badge-danger-text);
+  --sl-badge-tip-bg: var(--mk-badge-tip-bg);
+  --sl-badge-tip-border: var(--mk-badge-tip-border);
+  --sl-badge-tip-text: var(--mk-badge-tip-text);
+}
+
+.sl-badge {
+  border-radius: var(--mk-radius-pill);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .site-title {
@@ -669,7 +764,7 @@ dialog[aria-label="Search"] mark {
 }
 
 .sidebar ul ul li {
-  border-inline-start-color: var(--mk-border);
+  border-inline-start: 0;
 }
 
 /* ---------- Main content frame ---------- */
@@ -842,16 +937,54 @@ main > .content-panel:first-child h1 {
 /* ---------- Asides / admonitions ---------- */
 
 .sl-markdown-content .starlight-aside:not(:where(.not-content *)) {
+  --mk-aside-bg: var(--mk-surface-raised);
+  --mk-aside-border: var(--mk-border-strong);
+  --mk-aside-title: var(--mk-text);
+
   border: 1px solid var(--mk-border);
-  border-inline-start-width: 3px;
+  border-inline-start: 3px solid var(--mk-aside-border);
   border-radius: var(--mk-radius-md);
-  background: var(--mk-surface-raised);
+  background: var(--mk-aside-bg);
+  color: var(--mk-text-soft);
   padding: var(--mk-card-pad);
 }
 
+.sl-markdown-content .starlight-aside--note:not(:where(.not-content *)) {
+  --mk-aside-bg: var(--mk-aside-note-bg);
+  --mk-aside-border: var(--mk-aside-note-border);
+  --mk-aside-title: var(--mk-aside-note-text);
+}
+
+.sl-markdown-content .starlight-aside--tip:not(:where(.not-content *)) {
+  --mk-aside-bg: var(--mk-aside-tip-bg);
+  --mk-aside-border: var(--mk-aside-tip-border);
+  --mk-aside-title: var(--mk-aside-tip-text);
+}
+
+.sl-markdown-content .starlight-aside--caution:not(:where(.not-content *)) {
+  --mk-aside-bg: var(--mk-aside-caution-bg);
+  --mk-aside-border: var(--mk-aside-caution-border);
+  --mk-aside-title: var(--mk-aside-caution-text);
+}
+
+.sl-markdown-content .starlight-aside--danger:not(:where(.not-content *)) {
+  --mk-aside-bg: var(--mk-aside-danger-bg);
+  --mk-aside-border: var(--mk-aside-danger-border);
+  --mk-aside-title: var(--mk-aside-danger-text);
+}
+
 .sl-markdown-content .starlight-aside__title:not(:where(.not-content *)) {
-  font-size: var(--mk-text-sm);
-  letter-spacing: 0.01em;
+  color: var(--mk-aside-title);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  font-weight: 500;
+  letter-spacing: var(--mk-tracking-label);
+  text-transform: uppercase;
+}
+
+.sl-markdown-content .starlight-aside__icon:not(:where(.not-content *)) {
+  color: var(--mk-aside-title);
+  font-size: 1rem;
 }
 
 /* ---------- Cards ---------- */
@@ -949,6 +1082,79 @@ starlight-tabs:not(:where(.not-content *))
 
 .right-sidebar {
   border-inline-start: 0;
+}
+
+mobile-starlight-toc nav {
+  top: calc(var(--sl-nav-height) + var(--mk-space-2));
+  border-top: 0;
+  background: var(--mk-bg);
+}
+
+mobile-starlight-toc summary {
+  height: auto;
+  border-bottom: 0;
+  padding-block: var(--mk-space-1);
+  line-height: 1.4;
+}
+
+mobile-starlight-toc .toggle {
+  border-color: var(--mk-outline);
+  background: var(--mk-surface);
+  color: var(--mk-text);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  letter-spacing: var(--mk-tracking-label);
+  padding-block: var(--mk-space-1);
+  text-transform: uppercase;
+}
+
+mobile-starlight-toc details[open] .toggle,
+mobile-starlight-toc details .toggle:hover {
+  border-color: var(--mk-outline-hover);
+  color: var(--mk-text);
+}
+
+mobile-starlight-toc .display-current {
+  color: var(--mk-text-muted);
+}
+
+mobile-starlight-toc .dropdown {
+  border: 0;
+  background: var(--mk-bg);
+  box-shadow: none;
+  padding: var(--mk-space-2) var(--mk-space-4) var(--mk-space-4);
+}
+
+mobile-starlight-toc .dropdown ul {
+  display: grid;
+  gap: var(--mk-space-1);
+}
+
+mobile-starlight-toc .dropdown a {
+  border-top: 0;
+  border-radius: var(--mk-radius-sm);
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-sm);
+  padding: var(--mk-space-2) var(--mk-space-3);
+}
+
+mobile-starlight-toc .dropdown a:hover,
+mobile-starlight-toc .dropdown a:focus {
+  background: var(--mk-surface-hover);
+  color: var(--mk-text);
+}
+
+mobile-starlight-toc .dropdown a[aria-current="true"] {
+  background: var(--mk-accent-soft);
+  color: var(--mk-accent);
+}
+
+mobile-starlight-toc .dropdown a[aria-current="true"]::after {
+  width: 0.45rem;
+  border-radius: var(--mk-radius-pill);
+  background: currentColor;
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
 .right-sidebar-panel {

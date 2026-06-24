@@ -21,7 +21,9 @@ export default defineConfig({
           label: "Start",
           items: [
             { label: "Overview", link: "/" },
-            { label: "Install", link: "/guide/install/" },
+            { label: "Theme Setup", link: "/guide/theme-setup/" },
+            { label: "Add-ons", link: "/guide/add-ons/" },
+            { label: "Design", link: "/guide/design/" },
           ],
         },
         {

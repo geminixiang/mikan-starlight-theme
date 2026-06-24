@@ -48,7 +48,7 @@ An aside with a custom title instead of the default label.
   <Card title="Two-face type" icon="open-book">
     Weight-400 display with negative tracking; JetBrains Mono uppercase labels.
   </Card>
-  <Card title="Ink as color" icon="seti:default">
+  <Card title="Ink as color" icon="forward-slash">
     White-on-black, black-on-white. Pills everywhere; blue is a quiet link.
   </Card>
   <Card title="Light and dark" icon="moon">
@@ -62,9 +62,9 @@ An aside with a custom title instead of the default label.
 ## Link cards and buttons
 
 <LinkCard
-  title="Install the theme"
+  title="Theme setup"
   description="Add the plugin to your Starlight config."
-  href="/guide/install/"
+  href="/guide/theme-setup/"
 />
 <LinkCard
   title="Markdown elements"
@@ -72,7 +72,7 @@ An aside with a custom title instead of the default label.
   href="/guide/markdown/"
 />
 
-<LinkButton href="/guide/install/">Get started</LinkButton>
+<LinkButton href="/guide/theme-setup/">Get started</LinkButton>
 <LinkButton href="/guide/code/" variant="secondary">
   View code samples
 </LinkButton>
@@ -88,7 +88,11 @@ An aside with a custom title instead of the default label.
 3. Set the code theme:
 
    ```js
-   markdown: { shikiConfig: { theme: mikanCodeTheme } }
+   markdown: {
+     shikiConfig: {
+       theme: mikanCodeTheme;
+     }
+   }
    ```
 
 4. Run the dev server and verify these fixtures.
@@ -116,14 +120,16 @@ An aside with a custom title instead of the default label.
 ## Badges
 
 Status chips: <Badge text="New" variant="success" />
-<Badge text="Beta" variant="caution" /> <Badge text="Deprecated" variant="danger" />
+
+<Badge text="Beta" variant="caution" />
+<Badge text="Deprecated" variant="danger" />
 <Badge text="Default" variant="default" />
 
 ## Table
 
-| Token            | Light       | Dark        | Use                       |
-| ---------------- | ----------- | ----------- | ------------------------- |
-| `--mk-bg`        | `#ffffff`   | `#0a0a0a`   | Page canvas               |
-| `--mk-surface`   | `#ffffff`   | `#191919`   | Card fill                 |
-| `--mk-ink-fill`  | `#0a0a0a`   | `#ffffff`   | The one filled pill       |
-| `--mk-accent`    | `#2563eb`   | `#a0c3ec`   | Quiet link / active state |
+| Token           | Light     | Dark      | Use                       |
+| --------------- | --------- | --------- | ------------------------- |
+| `--mk-bg`       | `#ffffff` | `#0a0a0a` | Page canvas               |
+| `--mk-surface`  | `#ffffff` | `#191919` | Card fill                 |
+| `--mk-ink-fill` | `#0a0a0a` | `#ffffff` | The one filled pill       |
+| `--mk-accent`   | `#2563eb` | `#a0c3ec` | Quiet link / active state |

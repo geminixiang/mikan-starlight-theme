@@ -35,11 +35,6 @@ declare module "virtual:starlight/components/SiteTitle" {
   export default Component;
 }
 
-declare module "virtual:starlight/components/ThemeSelect" {
-  const Component: import("astro").AstroComponentFactory;
-  export default Component;
-}
-
 declare namespace App {
   interface Locals {
     starlightRoute: {
