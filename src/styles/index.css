@@ -789,6 +789,23 @@ main > .content-panel:first-child h1 {
   margin-top: 0;
 }
 
+.mikan-page-title {
+  display: grid;
+  gap: var(--mk-space-3);
+}
+
+.mikan-page-title h1 {
+  margin: 0;
+}
+
+.mikan-page-title p {
+  max-width: 48rem;
+  margin: 0;
+  color: var(--mk-text-muted);
+  font-size: clamp(1rem, 1.8vw, 1.16rem);
+  line-height: 1.65;
+}
+
 /* ---------- Markdown content ---------- */
 
 .sl-markdown-content {

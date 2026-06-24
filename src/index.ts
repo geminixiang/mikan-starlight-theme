@@ -21,6 +21,7 @@ const footerComponent = `${packageName}/components/Footer.astro`;
 const headerComponent = `${packageName}/components/Header.astro`;
 const mobileMenuFooterComponent = `${packageName}/components/MobileMenuFooter.astro`;
 const paginationComponent = `${packageName}/components/Pagination.astro`;
+const pageTitleComponent = `${packageName}/components/PageTitle.astro`;
 
 type ExpressiveCodeConfig = Exclude<
   StarlightUserConfig["expressiveCode"],
@@ -61,7 +62,7 @@ interface StarlightPlugin {
 }
 
 export interface MikanStarlightThemeOptions {
-  /** Override Starlight's Header/Footer/MobileMenuFooter/Pagination components. */
+  /** Override Starlight's Header/Footer/MobileMenuFooter/Pagination/PageTitle components. */
   components?: boolean;
   /** Add the theme CSS automatically. */
   customCss?: boolean;
@@ -110,6 +111,13 @@ export function mikanStarlightTheme({
             componentPath: paginationComponent,
             logger,
             usage: `use ${packageName}'s card pagination`,
+          });
+          setStarlightComponentOverride({
+            components: nextComponents,
+            component: "PageTitle",
+            componentPath: pageTitleComponent,
+            logger,
+            usage: `use ${packageName}'s title and description block`,
           });
         }
 

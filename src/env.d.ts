@@ -39,6 +39,12 @@ declare namespace App {
   interface Locals {
     starlightRoute: {
       dir: "ltr" | "rtl";
+      entry: {
+        data: {
+          title: string;
+          description?: string;
+        };
+      };
       pagination: {
         prev?: { href: string; label: string };
         next?: { href: string; label: string };
