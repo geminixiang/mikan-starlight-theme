@@ -1087,12 +1087,14 @@ starlight-tabs:not(:where(.not-content *))
 mobile-starlight-toc nav {
   top: calc(var(--sl-nav-height) + var(--mk-space-2));
   border-top: 0;
-  background: var(--mk-bg);
+  background: transparent;
+  background-color: transparent;
 }
 
 mobile-starlight-toc summary {
   height: auto;
   border-bottom: 0;
+  background: transparent;
   padding-block: var(--mk-space-1);
   line-height: 1.4;
 }
