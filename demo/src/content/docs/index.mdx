@@ -5,6 +5,8 @@ template: splash
 ---
 
 import Hero from "starlight-theme-mikan/components/Hero.astro";
+import Features from "starlight-theme-mikan/components/Features.astro";
+import CTA from "starlight-theme-mikan/components/CTA.astro";
 
 <Hero
   eyebrow="Astro Starlight theme"
@@ -13,5 +15,38 @@ import Hero from "starlight-theme-mikan/components/Hero.astro";
   actions={[
     { text: "Get started", href: "/guide/theme-setup/", variant: "primary" },
     { text: "View fixtures", href: "/guide/markdown/", variant: "secondary" },
+  ]}
+/>
+
+<Features
+  items={[
+    {
+      icon: "pencil",
+      title: "Editorial type",
+      body: "Weight-400 display with tight negative tracking, set on a comfortable measure.",
+    },
+    {
+      icon: "seti:css",
+      title: "One accent",
+      body: "A single blue, reserved for links and active state — never a marketing fill.",
+    },
+    {
+      icon: "document",
+      title: "Ink on paper",
+      body: "A warm near-white canvas, never pure #fff, kinder on long reading sessions.",
+    },
+    {
+      icon: "moon",
+      title: "Light + dark",
+      body: "Tuned token pairs for both modes, with no color flash on toggle.",
+    },
+  ]}
+/>
+
+<CTA
+  title="Ready to set your docs?"
+  body="Add the theme to your Starlight config and the landing blocks come with it."
+  actions={[
+    { text: "Get started", href: "/guide/theme-setup/", variant: "primary" },
   ]}
 />

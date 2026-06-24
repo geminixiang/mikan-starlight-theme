@@ -1330,33 +1330,179 @@ starlight-menu-button button {
 
 .mikan-footer {
   margin-top: var(--mk-space-7);
-  padding-bottom: var(--mk-space-5);
 }
 
-.mikan-footer-social {
+/*
+ * Sumi-e site footer band — a full-bleed ink-wash mountain landscape that runs
+ * across every page. Footer.astro relocates this element to <body> so it spans
+ * the true viewport width (the Footer slot otherwise lives inside the content
+ * column). The artwork (footer-sumie.webp) is imported there and handed in via
+ * --mk-footer-img. A deep ink gradient anchored to the bottom carries the white
+ * overlay text. Dark mode inverts + hue-rotates the image (sky → ink, orange
+ * sun preserved).
+ */
+.mikan-sitefooter {
+  position: relative;
+  width: 100%;
+  margin-top: var(--mk-space-8);
+  /*
+   * Starlight's sidebar-pane / right-sidebar are position:fixed with z-index:5,
+   * pinned to the viewport — so as the footer scrolls up they hang over its
+   * left/right edges and slice the artwork. Lift the footer above them so it
+   * spans uninterrupted (it is the bottom-most thing on the page anyway). No
+   * top border: the artwork fades into the page on its own (see ::before).
+   */
+  z-index: 10;
+  isolation: isolate;
+  overflow: hidden;
+  /*
+   * Opaque page-colour bed beneath the artwork, following the theme (--mk-bg).
+   * Without it the fixed sidebars under the footer would show through the
+   * faded top edge.
+   */
+  background: var(--mk-bg);
+  /*
+   * Top-edge fade applied to the WHOLE footer (bed + artwork together). The bed
+   * is opaque --mk-bg; if only the artwork faded, the bed's own top edge stayed
+   * a hard line that sliced the sidebar text above it (the reported artefact).
+   * Masking the footer itself dissolves that edge so the sidebar/ToC text melts
+   * into the band. Transparent at the very top → fully opaque by 18% down; the
+   * bottom 82% (deep-ink scrim + text) is untouched.
+   */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 100%);
+  /* White overlay text reads on the dark gradient regardless of theme. */
+  color: #fff;
+}
+
+.mikan-sitefooter-art {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--mk-footer-img);
+  background-size: cover;
+  background-position: center 42%;
+  background-repeat: no-repeat;
+  /*
+   * No mask here — the top-edge fade lives on .mikan-sitefooter so the opaque
+   * bed fades with the artwork as one. A second fade here would double up and
+   * over-thin the upper band.
+   */
+}
+
+:root[data-theme="dark"] .mikan-sitefooter-art {
+  /* Invert luminance (white sky → ink), spin hue back so orange stays warm. */
+  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(1.05);
+}
+
+/*
+ * Ink scrim: a deep band along the bottom edge (where the text sits) fading up
+ * into the misty landscape — the "深墨实带" that guarantees the white text reads
+ * over any part of the artwork. It MUST live on .mikan-sitefooter (not on the
+ * art layer): the dark-mode invert() filter is scoped to .mikan-sitefooter-art,
+ * so a scrim there would be inverted to a pale band and fail. Here it sits above
+ * the (z-index:-2) art, below the (auto) content, identical in both themes.
+ */
+.mikan-sitefooter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /*
+   * Deep-ink scrim along the bottom that carries the white overlay text. (The
+   * artwork's upper edge is faded by the vertical mask on .mikan-sitefooter-art,
+   * so no top gradient is needed here.)
+   */
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 32%,
+    rgba(10, 11, 14, 0.55) 64%,
+    rgba(8, 9, 12, 0.96) 100%
+  );
+}
+
+.mikan-sitefooter-inner {
+  position: relative;
   display: flex;
-  justify-content: center;
-  gap: var(--mk-space-2);
-  margin-top: var(--mk-space-5);
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--mk-space-4) var(--mk-space-6);
+  max-width: var(--sl-content-width, 50rem);
+  margin-inline: auto;
+  /* Tall top padding lets the landscape breathe before the text. */
+  padding: clamp(8rem, 20vw, 14rem) var(--mk-space-5) var(--mk-space-5);
 }
 
-.mikan-footer-social a {
+.mikan-sitefooter-brand {
+  display: grid;
+  gap: var(--mk-space-1);
+}
+
+.mikan-sitefooter-name {
+  color: #fff;
+  font-size: var(--mk-text-base);
+  font-weight: 550;
+  letter-spacing: -0.01em;
+}
+
+.mikan-sitefooter-tagline {
+  margin: 0;
+  max-width: 42ch;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: var(--mk-text-sm);
+  line-height: 1.55;
+}
+
+.mikan-sitefooter-aside {
+  display: grid;
+  justify-items: end;
+  gap: var(--mk-space-3);
+}
+
+.mikan-sitefooter-social {
+  display: flex;
+  gap: var(--mk-space-2);
+}
+
+.mikan-sitefooter-social a {
   display: inline-grid;
   place-items: center;
   width: 2.25rem;
   height: 2.25rem;
-  border: 1px solid var(--mk-outline);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: var(--mk-radius-pill);
   background: transparent;
-  color: var(--mk-text-muted);
+  color: rgba(255, 255, 255, 0.85);
   transition:
     border-color 120ms ease,
-    color 120ms ease;
+    color 120ms ease,
+    background 120ms ease;
 }
 
-.mikan-footer-social a:hover {
-  border-color: var(--mk-outline-hover);
-  color: var(--mk-text);
+.mikan-sitefooter-social a:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.mikan-sitefooter-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--mk-space-2);
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  letter-spacing: 0.04em;
+}
+
+.mikan-sitefooter-dot {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* ---------- Landing components ---------- */
@@ -1373,10 +1519,27 @@ starlight-menu-button button {
   display: none;
 }
 
+/*
+ * Splash spacing rhythm. The landing blocks each used to set their own
+ * margin-block, which doubled up where they meet. Instead, let the content
+ * flow own one consistent gap between landing sections, and zero the
+ * components' self-margins so the rhythm is single-sourced.
+ */
+.sl-markdown-content:has(.mikan-hero, .mikan-cta) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mk-section-gap);
+}
+
+.sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-features,
+.sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-cta {
+  margin-block: 0;
+}
+
 .mikan-hero {
   display: grid;
   gap: var(--mk-space-5);
-  padding-block: 0 clamp(1.5rem, 4vw, 3rem);
+  padding-block: 0;
 }
 
 .mikan-hero-eyebrow {
@@ -1493,35 +1656,34 @@ starlight-menu-button button {
   color: var(--mk-text);
 }
 
+/*
+ * Borderless, type-led feature grid. No box, no internal dividers — whitespace
+ * and a short hairline accent rule above each icon do the separating work (see
+ * the "typography over borders" principle). Cells are spaced apart, never glued.
+ */
 .mikan-features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: 0;
+  column-gap: var(--mk-space-7);
+  row-gap: var(--mk-space-7);
   margin-block: var(--mk-section-gap);
-  border: 1px solid var(--mk-border);
-  border-radius: var(--mk-radius-md);
-  overflow: hidden;
 }
 
 .mikan-feature {
   display: grid;
   gap: var(--mk-space-2);
   align-content: start;
-  padding: var(--mk-card-pad-lg);
-}
-
-.mikan-feature:first-child {
-  border-inline-start: 0;
+  padding-top: var(--mk-space-4);
+  /* The one structural device: a short hairline rule capping each cell. */
+  border-top: 1px solid var(--mk-border);
 }
 
 .mikan-feature-icon {
   display: grid;
   place-items: center;
-  width: 2rem;
-  height: 2rem;
-  margin-bottom: var(--mk-space-1);
-  border: 1px solid var(--mk-border);
-  border-radius: var(--mk-radius-sm);
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-bottom: var(--mk-space-2);
   color: var(--mk-accent);
 }
 
@@ -1540,15 +1702,23 @@ starlight-menu-button button {
   line-height: 1.55;
 }
 
+/*
+ * Quiet, type-led CTA — no filled slab or box. A single top hairline (the same
+ * structural device the feature grid uses) sets it apart; whitespace and the
+ * display headline carry the weight. Keeps the whole splash in one language.
+ */
 .mikan-cta {
   display: grid;
-  gap: var(--mk-space-3);
+  gap: var(--mk-space-4);
   justify-items: start;
   margin-block: var(--mk-section-gap);
-  border: 1px solid var(--mk-border);
-  border-radius: var(--mk-radius-lg);
-  background: var(--mk-surface-raised);
-  padding: var(--mk-card-pad-lg);
+  padding-top: var(--mk-space-7);
+  border-top: 1px solid var(--mk-border);
+}
+
+.mikan-cta-actions,
+.mikan-cta .mikan-hero-actions {
+  margin-top: var(--mk-space-2);
 }
 
 .mikan-cta h2 {
@@ -1604,8 +1774,41 @@ starlight-menu-button button {
     display: none;
   }
 
-  .mikan-feature {
-    border-inline-start: 0;
+  /* Hero: ease the display tracking and let the headline use the full measure. */
+  .mikan-hero h1 {
+    max-width: none;
+    letter-spacing: -0.03em;
+  }
+
+  /* Stack actions full-width so each pill is an easy tap target. */
+  .mikan-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mikan-hero-actions .mikan-btn,
+  .mikan-cta .mikan-hero-actions .mikan-btn {
+    justify-content: center;
+  }
+
+  /* Single-column features already follow from auto-fit; tighten the gap. */
+  .mikan-features {
+    row-gap: var(--mk-space-6);
+  }
+
+  /* Footer band: stack brand over the social/meta aside, left-aligned. */
+  .mikan-sitefooter-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: clamp(7rem, 38vw, 12rem);
+  }
+
+  .mikan-sitefooter-aside {
+    justify-items: start;
+  }
+
+  .mikan-sitefooter-meta {
+    justify-content: flex-start;
   }
 
   .sl-markdown-content table:not(:where(.not-content *)) {
