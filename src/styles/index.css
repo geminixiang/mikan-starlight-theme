@@ -1391,8 +1391,14 @@ starlight-menu-button button {
 }
 
 :root[data-theme="dark"] .mikan-sitefooter-art {
-  /* Invert luminance (white sky → ink), spin hue back so orange stays warm. */
-  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(1.05);
+  /*
+   * Invert luminance (white sky → ink) and spin hue back so the orange sun stays
+   * warm. The extra sepia + lowered saturation/brightness warm the inverted grey
+   * toward the page's purple-black canvas (#111113) — without them the band reads
+   * as a cold-grey patch that clashes with the warmer dark surface around it.
+   */
+  filter: invert(1) hue-rotate(180deg) brightness(0.78) contrast(1.05)
+    sepia(0.18) saturate(0.85);
 }
 
 /*
