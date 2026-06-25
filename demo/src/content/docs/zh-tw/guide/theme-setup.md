@@ -34,11 +34,12 @@ export default defineConfig({
 
 ## Theme Plugin
 
-`mikanTheme()` 會安裝共用 CSS、元件覆寫與 Expressive Code 預設值。
+`mikanTheme()` 會安裝共用 CSS、元件覆寫、Expressive Code 預設值，以及圖片點擊縮放。
 
 - `components`：覆寫 Starlight 的 header、footer、mobile menu footer 與 pagination。預設 `true`。
 - `customCss`：載入 mikan 設計 token 與元件樣式。預設 `true`。
 - `expressiveCode`：使用 mikan 亮暗雙程式碼主題。預設 `true`。
+- Markdown 與 MDX 的圖片點擊縮放會固定啟用。
 
 ## 多語言
 

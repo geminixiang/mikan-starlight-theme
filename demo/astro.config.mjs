@@ -1,6 +1,5 @@
 import mdx from "@astrojs/mdx";
 import starlight from "@astrojs/starlight";
-import starlightImageZoom from "starlight-image-zoom";
 import mikanTheme, {
   mikanAgentMarkdown,
   mikanCodeTheme,
@@ -70,7 +69,7 @@ export default defineConfig({
           href: "https://github.com/geminixiang/mikan-starlight-theme",
         },
       ],
-      plugins: [mikanTheme(), starlightImageZoom(), mikanAgentMarkdown()],
+      plugins: [mikanTheme(), mikanAgentMarkdown()],
     }),
     mdx(),
   ],

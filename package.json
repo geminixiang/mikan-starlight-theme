@@ -43,7 +43,11 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource/jetbrains-mono": "^5.2.8",
-    "starlight-image-zoom": "^0.14.2"
+    "mdast-util-mdx-jsx": "^3.2.0",
+    "rehype-raw": "^7.0.0",
+    "starlight-image-zoom": "^0.14.2",
+    "unist-util-visit": "^5.1.0",
+    "unist-util-visit-parents": "^6.0.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

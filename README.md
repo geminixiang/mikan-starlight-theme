@@ -55,6 +55,8 @@ mikanTheme({
   expressiveCode: true, // apply the mikan light + dark code theme
 });
 
+// Image click-to-zoom is enabled by default.
+
 mikanAgentMarkdown({
   markdownRoutes: true, // emit /index.md and /<slug>.md
   markdownActions: true, // add the "Copy as Markdown" ToC action

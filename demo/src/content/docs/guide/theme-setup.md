@@ -34,11 +34,12 @@ export default defineConfig({
 
 ## Theme Plugin
 
-`mikanTheme()` installs the shared CSS, component overrides, and Expressive Code defaults.
+`mikanTheme()` installs the shared CSS, component overrides, Expressive Code defaults, and image click-to-zoom.
 
 - `components` (boolean): Replace Starlight's header, footer, mobile menu footer, and pagination. Defaults to `true`.
 - `customCss` (boolean): Load the mikan design tokens and component skin. Defaults to `true`.
 - `expressiveCode` (boolean): Use the paired mikan light/dark Expressive Code themes. Defaults to `true`.
+- Image click-to-zoom is always enabled for Markdown and MDX content.
 
 ```js title="theme-options.js"
 mikanTheme({

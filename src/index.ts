@@ -1,3 +1,8 @@
+import type { AstroIntegration } from "astro";
+import {
+  imageZoomIntegration,
+  imageZoomMarkdownContentComponent,
+} from "./image-zoom";
 import { mikanCodeThemes } from "./themes/mikan";
 import {
   setStarlightComponentOverride,
@@ -48,16 +53,19 @@ interface StarlightUserConfig {
   head?: HeadTag[];
 }
 
+interface StarlightPluginContext {
+  config: StarlightUserConfig;
+  addIntegration(integration: AstroIntegration): void;
+  updateConfig(config: Partial<StarlightUserConfig>): void;
+  logger: {
+    warn(message: string): void;
+  };
+}
+
 interface StarlightPlugin {
   name: string;
   hooks: {
-    "config:setup"(context: {
-      config: StarlightUserConfig;
-      updateConfig(config: Partial<StarlightUserConfig>): void;
-      logger: {
-        warn(message: string): void;
-      };
-    }): void;
+    "config:setup"(context: StarlightPluginContext): void | Promise<void>;
   };
 }
 
@@ -78,10 +86,15 @@ export function mikanStarlightTheme({
   return {
     name: packageName,
     hooks: {
-      "config:setup"({ config, updateConfig, logger }) {
+      "config:setup"(context) {
+        const { config, updateConfig, logger } = context;
         const nextComponents: StarlightComponentOverrides = {
           ...config.components,
         };
+        if (!nextComponents.MarkdownContent) {
+          nextComponents.MarkdownContent = imageZoomMarkdownContentComponent();
+        }
+        context.addIntegration(imageZoomIntegration());
 
         if (components) {
           setStarlightComponentOverride({
