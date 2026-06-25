@@ -13,6 +13,7 @@ import {
   LinkCard,
   Steps,
 } from "@astrojs/starlight/components";
+import lightboxLandscape from "../../../../assets/lightbox-landscape.png";
 
 Starlight 內建元件會繼承 mikan 視覺語言：細線邊框、8px 卡片、沒有陰影。
 
@@ -74,6 +75,17 @@ Danger aside：最高強度的警告。
 <LinkButton href="/zh-tw/guide/code/" variant="secondary">
   查看程式碼範例
 </LinkButton>
+
+## 圖片 lightbox
+
+點圖片開啟 lightbox。可用 `+` / `-`、上方工具列，或 <kbd>Ctrl</kbd> + 滾輪縮放；按 <kbd>Esc</kbd> 關閉。
+
+<img
+  src={lightboxLandscape.src}
+  width={lightboxLandscape.width}
+  height={lightboxLandscape.height}
+  alt="用來測試圖片 lightbox 縮放的合成山景"
+/>
 
 ## 步驟
 

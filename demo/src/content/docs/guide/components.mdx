@@ -13,6 +13,7 @@ import {
   LinkCard,
   Steps,
 } from "@astrojs/starlight/components";
+import lightboxLandscape from "../../../assets/lightbox-landscape.png";
 
 Starlight's built-in components inherit the mikan visual language — hairline
 borders, 8px cards, no shadows.
@@ -76,6 +77,18 @@ An aside with a custom title instead of the default label.
 <LinkButton href="/guide/code/" variant="secondary">
   View code samples
 </LinkButton>
+
+## Image lightbox
+
+Click the image to open the theme lightbox. Use `+` / `-`, the toolbar, or
+<kbd>Ctrl</kbd> + wheel to zoom; press <kbd>Esc</kbd> to close.
+
+<img
+  src={lightboxLandscape.src}
+  width={lightboxLandscape.width}
+  height={lightboxLandscape.height}
+  alt="Synthetic mountain landscape used to test image lightbox zoom"
+/>
 
 ## Steps
 
