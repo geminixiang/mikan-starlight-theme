@@ -34,6 +34,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
+    "unused": "knip",
+    "prepare": "husky",
     "pack:dry": "pnpm pack --dry-run",
     "test": "pnpm run typecheck && pnpm run demo:check && pnpm run demo:build && pnpm run pack:dry"
   },
@@ -50,9 +52,10 @@
     "unist-util-visit-parents": "^6.0.2"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.9",
     "@astrojs/starlight": "^0.41.0",
     "astro": "^7.0.2",
+    "husky": "^9.1.7",
+    "knip": "^6.23.0",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.8.3"
@@ -67,5 +70,12 @@
     "documentation",
     "mikan"
   ],
+  "knip": {
+    "ignoreDependencies": [
+      "@fontsource-variable/inter",
+      "@fontsource/jetbrains-mono",
+      "starlight-image-zoom"
+    ]
+  },
   "packageManager": "pnpm@10.26.0"
 }
