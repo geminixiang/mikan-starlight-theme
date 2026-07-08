@@ -15,10 +15,8 @@ export {
   mikanCodeThemeLight,
   mikanCodeThemes,
 } from "./themes/mikan";
-export {
-  mikanAgentMarkdown,
-  type MikanAgentMarkdownOptions,
-} from "./agent-markdown";
+export { default as mikanAgentMarkdown } from "./agent-markdown";
+export type { MikanAgentMarkdownOptions } from "./agent-markdown";
 
 const packageName = "@geminixiang/mikan-starlight-theme";
 const themeCss = `${packageName}/styles/index.css`;
@@ -78,7 +76,7 @@ export interface MikanStarlightThemeOptions {
   expressiveCode?: boolean;
 }
 
-export function mikanStarlightTheme({
+function mikanStarlightTheme({
   components = true,
   customCss = true,
   expressiveCode = true,

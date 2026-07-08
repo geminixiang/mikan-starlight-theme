@@ -1,11 +1,11 @@
 const ASSET_PATH_PATTERN =
   /\.(?:avif|bmp|css|csv|eot|gif|ico|jpe?g|js|json|map|mjs|mov|mp3|mp4|ogg|otf|pdf|png|svg|ttf|txt|wasm|wav|webm|webp|woff2?|xml|zip)$/i;
 
-export function isAssetPath(pathname: string) {
+function isAssetPath(pathname: string) {
   return ASSET_PATH_PATTERN.test(pathname);
 }
 
-export function isInBase(pathname: string, base: string) {
+function isInBase(pathname: string, base: string) {
   return base === "/" || pathname === base || pathname.startsWith(`${base}/`);
 }
 
@@ -22,7 +22,7 @@ export function isIgnoredPath(pathname: string, base: string) {
   );
 }
 
-export function stripBase(pathname: string, base: string) {
+function stripBase(pathname: string, base: string) {
   if (base === "/") {
     return pathname.replace(/^\//, "");
   }
@@ -36,7 +36,7 @@ export function stripBase(pathname: string, base: string) {
     : pathname.replace(/^\//, "");
 }
 
-export function joinBase(base: string, pathname: string) {
+function joinBase(base: string, pathname: string) {
   const normalized = pathname.replace(/^\/+/, "");
 
   if (base === "/") {

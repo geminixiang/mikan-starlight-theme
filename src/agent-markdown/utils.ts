@@ -14,7 +14,7 @@ export interface MarkdownPage extends Record<string, unknown> {
 
 let markdownPagesPromise: Promise<MarkdownPage[]> | undefined;
 
-export async function getMarkdownPages(): Promise<MarkdownPage[]> {
+async function getMarkdownPages(): Promise<MarkdownPage[]> {
   if (import.meta.env.MODE === "production" && markdownPagesPromise) {
     return markdownPagesPromise;
   }
@@ -101,7 +101,7 @@ function joinBase(base: string, path: string): string {
   return path === "/" ? `${base}/` : `${base}${path}`;
 }
 
-export function toMarkdown(page: MarkdownPage, url: string): string {
+function toMarkdown(page: MarkdownPage, url: string): string {
   const { data } = page.entry;
   const title = typeof data.title === "string" ? data.title : "";
   const description =
@@ -135,7 +135,7 @@ function yamlString(value: string): string {
  * strip frontmatter, drop import/export statements, and remove common JSX
  * component wrappers while keeping their text content.
  */
-export function normalizeBody(body: string): string {
+function normalizeBody(body: string): string {
   const withoutFrontmatter = body.replace(/^---\n[\s\S]*?\n---\n/, "");
 
   // Strip MDX import/export lines and standalone JSX component tags, but only

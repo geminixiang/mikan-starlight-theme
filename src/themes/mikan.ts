@@ -69,4 +69,4 @@ export const mikanCodeThemes = [mikanCodeThemeDark, mikanCodeThemeLight] as cons
  * Single theme for plain Markdown rendering (`markdown.shikiConfig.theme`),
  * which does not support a light/dark pair. Defaults to the dark theme.
  */
-export const mikanCodeTheme = mikanCodeThemeDark;
+export const mikanCodeTheme = { ...mikanCodeThemeDark } as const;

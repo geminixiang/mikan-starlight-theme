@@ -44,7 +44,7 @@ export interface MikanAgentMarkdownOptions {
   markdownActions?: boolean;
 }
 
-export function mikanAgentMarkdown({
+function mikanAgentMarkdown({
   markdownRoutes = true,
   contentNegotiation = false,
   markdownActions = true,
