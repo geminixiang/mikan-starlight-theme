@@ -4,7 +4,7 @@ A reusable Astro Starlight theme package for mikan docs.
 
 ## What this repo contains
 
-- `src/` — the `starlight-theme-mikan` package.
+- `src/` — the `@geminixiang/mikan-starlight-theme` package.
 - `demo/` — a small Starlight docs site that exercises light/dark mode, mobile navigation, long sidebars, code blocks, admonitions, tables, search, and pagination.
 - `/tmp/sentry-starlight-theme` was cloned as an implementation reference for Starlight plugin/package shape.
 
@@ -30,7 +30,7 @@ import starlight from "@astrojs/starlight";
 import mikanTheme, {
   mikanAgentMarkdown,
   mikanCodeTheme,
-} from "starlight-theme-mikan";
+} from "@geminixiang/mikan-starlight-theme";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
@@ -69,9 +69,9 @@ mikanAgentMarkdown({
 For `template: splash` pages (use from `.mdx`):
 
 ```mdx
-import Hero from "starlight-theme-mikan/components/Hero.astro";
-import Features from "starlight-theme-mikan/components/Features.astro";
-import CTA from "starlight-theme-mikan/components/CTA.astro";
+import Hero from "@geminixiang/mikan-starlight-theme/components/Hero.astro";
+import Features from "@geminixiang/mikan-starlight-theme/components/Features.astro";
+import CTA from "@geminixiang/mikan-starlight-theme/components/CTA.astro";
 ```
 
 ## Development

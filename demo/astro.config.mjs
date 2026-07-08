@@ -3,7 +3,7 @@ import starlight from "@astrojs/starlight";
 import mikanTheme, {
   mikanAgentMarkdown,
   mikanCodeTheme,
-} from "starlight-theme-mikan";
+} from "@geminixiang/mikan-starlight-theme";
 import { defineConfig } from "astro/config";
 import remarkGfm from "remark-gfm";
 

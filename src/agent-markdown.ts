@@ -4,7 +4,7 @@ import {
   type StarlightComponentOverrides,
 } from "./starlight-components";
 
-const packageName = "starlight-theme-mikan";
+const packageName = "@geminixiang/mikan-starlight-theme";
 const pluginName = `${packageName}/agent-markdown`;
 const tableOfContentsComponent = `${packageName}/agent-markdown/TableOfContents`;
 

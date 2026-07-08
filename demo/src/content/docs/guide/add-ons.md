@@ -11,7 +11,7 @@ Add `mikanAgentMarkdown()` if you want generated `.md` routes and a copy-for-LLM
 
 ```js title="astro.config.mjs"
 import starlight from "@astrojs/starlight";
-import mikanTheme, { mikanAgentMarkdown } from "starlight-theme-mikan";
+import mikanTheme, { mikanAgentMarkdown } from "@geminixiang/mikan-starlight-theme";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
@@ -41,7 +41,7 @@ time.
 For `template: splash` pages, mikan ships `Hero`, `Features`, and `CTA` components:
 
 ```mdx title="src/content/docs/index.mdx"
-import Hero from "starlight-theme-mikan/components/Hero.astro";
-import Features from "starlight-theme-mikan/components/Features.astro";
-import CTA from "starlight-theme-mikan/components/CTA.astro";
+import Hero from "@geminixiang/mikan-starlight-theme/components/Hero.astro";
+import Features from "@geminixiang/mikan-starlight-theme/components/Features.astro";
+import CTA from "@geminixiang/mikan-starlight-theme/components/CTA.astro";
 ```

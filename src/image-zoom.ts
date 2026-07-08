@@ -46,7 +46,7 @@ export function imageZoomMarkdownContentComponent(): string {
 
 export function imageZoomIntegration(): AstroIntegration {
   return {
-    name: "starlight-theme-mikan/image-zoom",
+    name: "@geminixiang/mikan-starlight-theme/image-zoom",
     hooks: {
       "astro:config:setup"({ updateConfig }) {
         updateConfig({
@@ -200,7 +200,7 @@ function vitePluginImageZoomConfig() {
   const moduleContent = 'export default {"showCaptions":true}';
 
   return {
-    name: "vite-plugin-starlight-theme-mikan-image-zoom-config",
+    name: "@geminixiang/mikan-starlight-theme/image-zoom-config",
     load(id: string) {
       return id === resolvedModuleId ? moduleContent : undefined;
     },

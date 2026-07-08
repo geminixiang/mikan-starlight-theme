@@ -14,7 +14,7 @@
     "@astrojs/starlight": "^0.41.0",
     "astro": "^7.0.2",
     "remark-gfm": "^4.0.1",
-    "starlight-theme-mikan": "workspace:*"
+    "@geminixiang/mikan-starlight-theme": "workspace:*"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

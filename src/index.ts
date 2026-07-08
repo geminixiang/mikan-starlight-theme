@@ -20,7 +20,7 @@ export {
   type MikanAgentMarkdownOptions,
 } from "./agent-markdown";
 
-const packageName = "starlight-theme-mikan";
+const packageName = "@geminixiang/mikan-starlight-theme";
 const themeCss = `${packageName}/styles/index.css`;
 const footerComponent = `${packageName}/components/Footer.astro`;
 const headerComponent = `${packageName}/components/Header.astro`;

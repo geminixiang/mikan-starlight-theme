@@ -11,7 +11,7 @@ description: 在 Starlight 站台加入可選的 mikan 功能。
 
 ```js title="astro.config.mjs"
 import starlight from "@astrojs/starlight";
-import mikanTheme, { mikanAgentMarkdown } from "starlight-theme-mikan";
+import mikanTheme, { mikanAgentMarkdown } from "@geminixiang/mikan-starlight-theme";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
@@ -39,7 +39,7 @@ mikanAgentMarkdown({
 `template: splash` 頁面可使用 mikan 內建的 `Hero`、`Features` 與 `CTA` 元件：
 
 ```mdx title="src/content/docs/index.mdx"
-import Hero from "starlight-theme-mikan/components/Hero.astro";
-import Features from "starlight-theme-mikan/components/Features.astro";
-import CTA from "starlight-theme-mikan/components/CTA.astro";
+import Hero from "@geminixiang/mikan-starlight-theme/components/Hero.astro";
+import Features from "@geminixiang/mikan-starlight-theme/components/Features.astro";
+import CTA from "@geminixiang/mikan-starlight-theme/components/CTA.astro";
 ```

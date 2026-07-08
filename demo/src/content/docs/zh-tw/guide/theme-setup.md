@@ -7,14 +7,14 @@ url: "https://mikan-starlight-theme.local/zh-tw/guide/theme-setup/"
 先安裝套件：
 
 ```sh
-pnpm add starlight-theme-mikan @astrojs/starlight astro
+pnpm add @geminixiang/mikan-starlight-theme @astrojs/starlight astro
 ```
 
 把 theme plugin 加到 `starlight()`，並使用匯出的 mikan 程式碼主題：
 
 ```js title="astro.config.mjs"
 import starlight from "@astrojs/starlight";
-import mikanTheme, { mikanCodeTheme } from "starlight-theme-mikan";
+import mikanTheme, { mikanCodeTheme } from "@geminixiang/mikan-starlight-theme";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({

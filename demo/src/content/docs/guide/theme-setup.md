@@ -7,14 +7,14 @@ url: "https://mikan-starlight-theme.local/guide/theme-setup/"
 Install the package with Starlight and Astro:
 
 ```sh
-pnpm add starlight-theme-mikan @astrojs/starlight astro
+pnpm add @geminixiang/mikan-starlight-theme @astrojs/starlight astro
 ```
 
 Add the theme plugin to `starlight()` and use the exported mikan code theme:
 
 ```js title="astro.config.mjs"
 import starlight from "@astrojs/starlight";
-import mikanTheme, { mikanCodeTheme } from "starlight-theme-mikan";
+import mikanTheme, { mikanCodeTheme } from "@geminixiang/mikan-starlight-theme";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({

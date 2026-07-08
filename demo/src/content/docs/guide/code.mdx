@@ -18,7 +18,7 @@ import type { StarlightPlugin } from "./types";
 export function mikanTheme(options: { dark?: boolean } = {}): StarlightPlugin {
   const { dark = true } = options;
   return {
-    name: "starlight-theme-mikan",
+    name: "@geminixiang/mikan-starlight-theme",
     hooks: { "config:setup": () => console.log(`dark=${dark}`) },
   };
 }
@@ -106,28 +106,28 @@ the site via `syncKey`.
   <TabItem label="npm">
 
 ```sh
-npm install starlight-theme-mikan @astrojs/starlight
+npm install @geminixiang/mikan-starlight-theme @astrojs/starlight
 ```
 
   </TabItem>
   <TabItem label="pnpm">
 
 ```sh
-pnpm add starlight-theme-mikan @astrojs/starlight
+pnpm add @geminixiang/mikan-starlight-theme @astrojs/starlight
 ```
 
   </TabItem>
   <TabItem label="yarn">
 
 ```sh
-yarn add starlight-theme-mikan @astrojs/starlight
+yarn add @geminixiang/mikan-starlight-theme @astrojs/starlight
 ```
 
   </TabItem>
   <TabItem label="bun">
 
 ```sh
-bun add starlight-theme-mikan @astrojs/starlight
+bun add @geminixiang/mikan-starlight-theme @astrojs/starlight
 ```
 
   </TabItem>
