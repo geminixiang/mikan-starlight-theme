@@ -45,7 +45,7 @@
     "@fontsource/jetbrains-mono": "^5.2.8",
     "mdast-util-mdx-jsx": "^3.2.0",
     "rehype-raw": "^7.0.0",
-    "starlight-image-zoom": "^0.14.2",
+    "starlight-image-zoom": "^0.15.0",
     "unist-util-visit": "^5.1.0",
     "unist-util-visit-parents": "^6.0.2"
   },
