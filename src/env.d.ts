@@ -55,3 +55,7 @@ declare namespace App {
     t(key: string): string;
   }
 }
+
+declare const __MIKAN_FOOTER_CREDIT__:
+  | { label: string; href?: string }
+  | false;

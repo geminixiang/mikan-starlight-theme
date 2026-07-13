@@ -74,12 +74,15 @@ export interface MikanStarlightThemeOptions {
   customCss?: boolean;
   /** Configure Expressive Code with Mikan's high-contrast code style. */
   expressiveCode?: boolean;
+  /** Text and optional link shown after the copyright in the site footer. */
+  footerCredit?: { label: string; href?: string } | false;
 }
 
 function mikanStarlightTheme({
   components = true,
   customCss = true,
   expressiveCode = true,
+  footerCredit = { label: "Built with Starlight" },
 }: MikanStarlightThemeOptions = {}): StarlightPlugin {
   return {
     name: packageName,
@@ -93,6 +96,20 @@ function mikanStarlightTheme({
           nextComponents.MarkdownContent = imageZoomMarkdownContentComponent();
         }
         context.addIntegration(imageZoomIntegration());
+        context.addIntegration({
+          name: `${packageName}/footer-credit`,
+          hooks: {
+            "astro:config:setup"({ updateConfig }) {
+              updateConfig({
+                vite: {
+                  define: {
+                    __MIKAN_FOOTER_CREDIT__: JSON.stringify(footerCredit),
+                  },
+                },
+              });
+            },
+          },
+        });
 
         if (components) {
           setStarlightComponentOverride({

@@ -34,6 +34,7 @@ const { siteTitle } = Astro.locals.starlightRoute;
 // `tagline` is a top-level Starlight config field not surfaced on the virtual
 // config's type; read it defensively so the band degrades when omitted.
 const tagline = (config as { tagline?: string }).tagline;
+const footerCredit = __MIKAN_FOOTER_CREDIT__;
 ---
 
 <footer class="mikan-footer print:hidden">
@@ -68,8 +69,14 @@ const tagline = (config as { tagline?: string }).tagline;
       }
       <p class="mikan-sitefooter-meta">
         <span>© {year} {siteTitle}</span>
-        <span class="mikan-sitefooter-dot" aria-hidden="true">·</span>
-        <span>Built with Starlight</span>
+        {footerCredit && <span class="mikan-sitefooter-dot" aria-hidden="true">·</span>}
+        {footerCredit && (
+          <span>
+            {footerCredit.href
+              ? <a href={footerCredit.href}>{footerCredit.label}</a>
+              : footerCredit.label}
+          </span>
+        )}
       </p>
     </div>
   </div>
