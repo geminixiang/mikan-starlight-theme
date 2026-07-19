@@ -1,0 +1,122 @@
+---
+/**
+ * The landing page's signature: a flowing pipeline of separated concerns.
+ *
+ * Four stages hang off a single hairline spine and read left-to-right as a real
+ * data path — chat produces a session, the session drives a sandbox, the
+ * sandbox asks the vault for credentials. The stages are deliberately offset,
+ * not glued into equal columns, so the eye reads them as separate things kept
+ * apart. A single warm pulse (the brand's one sunset accent) travels the spine;
+ * the stages reveal in sequence as the band scrolls into view.
+ *
+ * Everything degrades to a static, fully-visible diagram under
+ * prefers-reduced-motion and when JS is off. No fills, no shadows — the motion
+ * is the only flourish, and it lives here alone.
+ *
+ * <ArchBand
+ *   eyebrow="Separation of concerns"
+ *   title="Four layers on one path — kept apart on purpose."
+ *   tagline="Most agents fuse the transcript, the model loop, and the shell..."
+ *   lanes={[
+ *     { name: "Chat record", verb: "records", body: "..." },
+ *     { name: "Agent session", verb: "drives", body: "..." },
+ *     { name: "Sandbox", verb: "requests", body: "..." },
+ *     { name: "Vault", body: "..." },
+ *   ]}
+ * />
+ */
+interface Lane {
+  name: string;
+  /** The relationship to the NEXT stage, shown on the connector. Omit on the last. */
+  verb?: string;
+  body: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  tagline?: string;
+  lanes?: Lane[];
+}
+
+const { eyebrow, title, tagline, lanes = [] } = Astro.props;
+---
+
+<section class="mikan-arch not-content" data-mikan-arch>
+  {
+    (eyebrow || title || tagline) && (
+      <header class="mikan-arch-head">
+        {eyebrow && <span class="mikan-arch-eyebrow">{eyebrow}</span>}
+        {title && <h2>{title}</h2>}
+        {tagline && <p>{tagline}</p>}
+      </header>
+    )
+  }
+
+  <div class="mikan-arch-spine" role="list" aria-label="Execution pipeline">
+    <span class="mikan-arch-rail" aria-hidden="true"></span>
+    <span class="mikan-arch-pulse" aria-hidden="true"></span>
+    {
+      lanes.map((lane, i) => (
+        <div
+          class="mikan-arch-node"
+          role="listitem"
+          style={`--i:${i}`}
+          data-arch-node
+        >
+          <span class="mikan-arch-tick" aria-hidden="true" />
+          <span class="mikan-arch-index">
+            {String(i + 1).padStart(2, "0")}
+            {lane.verb && i < lanes.length - 1 && (
+              <span class="mikan-arch-verb"> · {lane.verb} →</span>
+            )}
+          </span>
+          <h3>{lane.name}</h3>
+          <p>{lane.body}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  // Reveal each stage in sequence as the band enters the viewport, then let the
+  // spine pulse run. Under reduced motion (or no IO support) everything shows at
+  // once and no pulse plays — the reveal class is what gates both.
+  function initMikanArch() {
+    const bands = document.querySelectorAll<HTMLElement>("[data-mikan-arch]");
+    if (!bands.length) return;
+
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    // No animation path (reduced motion or no IO): leave the band in its default
+    // fully-visible state and do nothing. The CSS only hides nodes under
+    // [data-anim], which we never set here.
+    if (reduce || !("IntersectionObserver" in window)) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-shown");
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.35 },
+    );
+
+    bands.forEach((b) => {
+      // Opt into the hidden-then-reveal only now that JS is confirmed running,
+      // so the initial state is hidden before the observer fires.
+      b.setAttribute("data-anim", "");
+      io.observe(b);
+    });
+  }
+
+  initMikanArch();
+  // Astro view transitions / client navigations re-run this.
+  document.addEventListener("astro:page-load", initMikanArch);
+</script>

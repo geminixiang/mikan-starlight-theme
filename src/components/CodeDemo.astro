@@ -1,0 +1,110 @@
+---
+/**
+ * A "how it works" split: mono-caps steps on one side, a static terminal frame
+ * on the other. The terminal is presentational chrome that matches the theme's
+ * Expressive Code terminal look (dot header, code-bg surface, hairline border),
+ * so a landing page can show a command sequence without a live code block.
+ *
+ * Lines accept a leading "$ " to render as a prompt (dimmed sigil, ink command)
+ * or a "# " to render as a comment; anything else renders as muted output.
+ *
+ * <CodeDemo
+ *   eyebrow="How it works"
+ *   title="Install it, point it at a chat, and go."
+ *   steps={[
+ *     { title: "Install", body: "One npm install, run under PM2 so it stays up." },
+ *     { title: "Connect", body: "Set a bot token per platform in mikan.env." },
+ *     { title: "Talk to it", body: "@mention it in a channel or DM it directly." },
+ *   ]}
+ *   terminalTitle="~/mikan"
+ *   lines={[
+ *     "$ npm i -g @geminixiang/mikan",
+ *     "$ mikan --onboard --state-dir=~/.mikan",
+ *     "# set SLACK_BOT_TOKEN in ~/.mikan/mikan.env",
+ *     "$ pm2 start ecosystem.config.cjs",
+ *     "  mikan online — listening on 4 platforms",
+ *   ]}
+ * />
+ */
+interface Step {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  steps?: Step[];
+  terminalTitle?: string;
+  lines?: string[];
+}
+
+const {
+  eyebrow,
+  title,
+  steps = [],
+  terminalTitle = "terminal",
+  lines = [],
+} = Astro.props;
+
+// Parse each terminal line once, in the frontmatter, into a kind + display text.
+// Each line renders as its own block <span> (see .mikan-tl { display: block }),
+// so no inline "\n" literals are needed in the markup.
+type TerminalLine = { kind: "prompt" | "comment" | "output"; text: string };
+
+const terminalLines: TerminalLine[] = lines.map((line): TerminalLine => {
+  if (line.startsWith("$ "))
+    return { kind: "prompt", text: line.slice(2).trim() };
+  if (line.startsWith("# ")) return { kind: "comment", text: line.trim() };
+  // Output lines are indented via CSS, so leading spaces in the prop are dropped.
+  return { kind: "output", text: line.trim() };
+});
+---
+
+<section class="mikan-codedemo not-content">
+  <div class="mikan-codedemo-copy">
+    {eyebrow && <span class="mikan-codedemo-eyebrow">{eyebrow}</span>}
+    {title && <h2>{title}</h2>}
+    {
+      steps.length > 0 && (
+        <ol class="mikan-codedemo-steps">
+          {steps.map((step) => (
+            <li class="mikan-codedemo-step">
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </li>
+          ))}
+        </ol>
+      )
+    }
+  </div>
+
+  <div
+    class="mikan-terminal"
+    role="img"
+    aria-label={`Terminal: ${terminalTitle}`}
+  >
+    <div class="mikan-terminal-bar">
+      <span class="mikan-terminal-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+      <span class="mikan-terminal-title">{terminalTitle}</span>
+    </div>
+    <div class="mikan-terminal-body">
+      {
+        terminalLines.map((line) =>
+          line.kind === "prompt" ? (
+            <span class="mikan-tl mikan-tl-prompt">
+              <span class="mikan-tl-sigil">$</span>
+              <span class="mikan-tl-cmd">{line.text}</span>
+            </span>
+          ) : (
+            <span class:list={["mikan-tl", `mikan-tl-${line.kind}`]}>
+              {line.text}
+            </span>
+          ),
+        )
+      }
+    </div>
+  </div>
+</section>
