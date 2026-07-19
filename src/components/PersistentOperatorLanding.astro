@@ -1,0 +1,898 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+import config from "virtual:starlight/user-config";
+import darkFooter from "../assets/footer-sumie.webp";
+import lightFooter from "../assets/footer-sumie-light.webp";
+import defaultHeroPoster from "../assets/hero-conversation-poster.webp";
+
+/**
+ * Code-grounded landing page for mikan. Starlight owns the global header.
+ * The hero video is decorative; all product meaning remains accessible HTML.
+ */
+interface Props {
+  quickstartHref?: string;
+  githubHref?: string;
+  platformsHref?: string;
+  sessionsHref?: string;
+  sandboxHref?: string;
+  commandsHref?: string;
+  eventsHref?: string;
+  skillsHref?: string;
+  heroVideoSrc?: string;
+  heroPosterSrc?: string;
+}
+
+const {
+  quickstartHref = "/quickstart/",
+  githubHref = "https://github.com/geminixiang/mikan",
+  platformsHref = "/platform-adapters/",
+  sessionsHref = "/sessions/",
+  sandboxHref = "/sandbox/",
+  commandsHref = "/commands/",
+  eventsHref = "/events/",
+  skillsHref = "/skills/",
+  heroVideoSrc,
+  heroPosterSrc,
+} = Astro.props;
+
+const socialLinks = Array.isArray(config.social)
+  ? config.social
+  : config.social && typeof config.social === "object"
+    ? Object.entries(config.social).map(([icon, href]) => ({
+        href: String(href),
+        icon,
+        label: icon,
+      }))
+    : [];
+const { siteTitle } = Astro.locals.starlightRoute;
+const tagline = (config as { tagline?: string }).tagline;
+const footerCredit = __MIKAN_FOOTER_CREDIT__;
+const year = new Date().getFullYear();
+
+const heroPoster = heroPosterSrc ?? defaultHeroPoster.src;
+
+const platforms = [
+  ["Slack", "Direct messages, channel mentions, and threads."],
+  ["Telegram", "Private chats, group mentions, and reply chains."],
+  ["Discord", "Direct messages, channels, threads, and replies."],
+  ["GitHub", "Issues, pull requests, and inline review comments."],
+];
+
+const executionBackends = [
+  "Host",
+  "Docker container",
+  "Per-conversation image",
+  "Firecracker",
+  "Cloudflare Sandbox",
+  "Gondolin",
+];
+---
+
+<main
+  class="mikan-product not-content"
+  data-mikan-product
+  style={`--mikan-footer-dark:url('${darkFooter.src}');--mikan-footer-light:url('${lightFooter.src}')`}
+>
+  <section class="product-hero" aria-labelledby="product-title">
+    <div class="product-hero-media" aria-hidden="true">
+      {
+        heroVideoSrc && (
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster={heroPoster}
+            data-mikan-hero-video
+          >
+            <source src={heroVideoSrc} />
+          </video>
+        )
+      }
+      <div
+        class="product-hero-fallback"
+        style={`--mikan-hero-poster:url('${heroPoster}')`}
+      >
+        <span class="signal signal-one"></span>
+        <span class="signal signal-two"></span>
+        <span class="signal signal-three"></span>
+        <span class="signal signal-four"></span>
+        <span class="mikan-orbit"></span>
+      </div>
+      <div class="product-hero-scrim"></div>
+    </div>
+
+    <div class="product-hero-copy">
+      <p class="product-eyebrow">Self-hosted · Open source</p>
+      <h1 id="product-title">AI coding agent for your conversations.</h1>
+      <p class="product-slogan">
+        Run mikan from Slack, Telegram, Discord, and GitHub.
+      </p>
+      <div class="product-actions">
+        <a class="product-button product-button-primary" href={quickstartHref}>
+          Get started
+        </a>
+        <a class="product-button product-button-secondary" href={githubHref}>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="product-section product-platforms"
+    aria-labelledby="platforms-title"
+  >
+    <header class="product-section-head">
+      <p class="product-eyebrow">Conversation surfaces</p>
+      <h2 id="platforms-title">Meet mikan where the work is discussed.</h2>
+      <p>
+        Each adapter follows the platform’s own message, mention, thread, and
+        reply model instead of forcing every conversation into one generic
+        shape.
+      </p>
+    </header>
+
+    <div class="platform-list">
+      {
+        platforms.map(([name, description], index) => (
+          <article class="platform-item">
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h3>{name}</h3>
+            <p>{description}</p>
+          </article>
+        ))
+      }
+    </div>
+    <a class="product-text-link" href={platformsHref}
+      >Compare platform adapters →</a
+    >
+  </section>
+
+  <section
+    class="product-section product-records"
+    aria-labelledby="records-title"
+  >
+    <header class="product-section-head">
+      <p class="product-eyebrow">Records and sessions</p>
+      <h2 id="records-title">Chat history and agent sessions stay separate.</h2>
+      <p>
+        Platform messages and attachments form the conversation record. Agent
+        turns and tool results persist in structured session files. Each adapter
+        decides how its threads and replies map to those sessions.
+      </p>
+    </header>
+
+    <div
+      class="record-figure"
+      aria-label="Conversation records remain separate from agent sessions"
+    >
+      <div class="record-column">
+        <span class="record-index">01</span>
+        <p class="record-label">Conversation record</p>
+        <h3>Platform history</h3>
+        <code>log.jsonl</code>
+        <code>attachments/</code>
+      </div>
+      <span class="record-separator" aria-hidden="true"></span>
+      <div class="record-column">
+        <span class="record-index">02</span>
+        <p class="record-label">Agent context</p>
+        <h3>Structured sessions</h3>
+        <code>sessions/*.jsonl</code>
+        <code>tool results</code>
+      </div>
+    </div>
+    <a class="product-text-link" href={sessionsHref}
+      >Read about session scopes →</a
+    >
+  </section>
+
+  <section
+    class="product-section product-execution"
+    aria-labelledby="execution-title"
+  >
+    <header class="product-section-head">
+      <p class="product-eyebrow">Execution</p>
+      <h2 id="execution-title">
+        Choose the execution environment for your deployment.
+      </h2>
+      <p>
+        Tools can run directly on the host or through a configured container,
+        VM, or remote sandbox backend. Isolation, workspace mounts, and
+        credential behavior depend on the selected backend and platform trust
+        model.
+      </p>
+    </header>
+
+    <ul class="execution-list" aria-label="Supported execution backends">
+      {executionBackends.map((backend) => <li>{backend}</li>)}
+    </ul>
+    <a class="product-text-link" href={sandboxHref}>Compare sandbox modes →</a>
+  </section>
+
+  <aside class="product-more" aria-labelledby="more-title">
+    <div>
+      <p class="product-eyebrow">More capabilities</p>
+      <h2 id="more-title">Go deeper in the docs.</h2>
+    </div>
+    <nav aria-label="More mikan documentation">
+      <a href={commandsHref}>Chat commands <span>→</span></a>
+      <a href={eventsHref}>Scheduled events <span>→</span></a>
+      <a href={skillsHref}>Skills and extensions <span>→</span></a>
+      <a href={sandboxHref}>Vault and sandboxes <span>→</span></a>
+    </nav>
+  </aside>
+
+  <footer class="product-closing">
+    <div class="product-closing-cta">
+      <h2>Bring mikan into the conversation.</h2>
+      <a class="product-button product-button-primary" href={quickstartHref}
+        >Get started</a
+      >
+    </div>
+
+    <div class="product-footer-inner">
+      <div class="product-footer-brand">
+        {siteTitle && <span class="product-footer-name">{siteTitle}</span>}
+        {tagline && <p>{tagline}</p>}
+      </div>
+      <div class="product-footer-aside">
+        {
+          socialLinks.length > 0 && (
+            <nav class="product-footer-social" aria-label="Project links">
+              {socialLinks.map(({ label, href, icon }) => (
+                <a {href} rel="me" aria-label={label} title={label}>
+                  <Icon name={icon as never} />
+                </a>
+              ))}
+            </nav>
+          )
+        }
+        <p class="product-footer-meta">
+          <span>© {year} {siteTitle}</span>
+          {footerCredit && <span aria-hidden="true">·</span>}
+          {
+            footerCredit && (
+              <span>
+                {footerCredit.href ? (
+                  <a href={footerCredit.href}>{footerCredit.label}</a>
+                ) : (
+                  footerCredit.label
+                )}
+              </span>
+            )
+          }
+        </p>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+  function syncMikanHeroVideo() {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    document
+      .querySelectorAll<HTMLVideoElement>("[data-mikan-hero-video]")
+      .forEach((video) => {
+        if (reduceMotion.matches) {
+          video.pause();
+          video.currentTime = 0;
+        } else {
+          void video.play().catch(() => {});
+        }
+      });
+  }
+
+  syncMikanHeroVideo();
+  document.addEventListener("astro:page-load", syncMikanHeroVideo);
+</script>
+
+<style>
+  .mikan-product {
+    --product-orange: #e86712;
+    --product-moss: #718052;
+    --product-blue: #567aa4;
+    width: 100%;
+    color: var(--mk-text);
+  }
+
+  .product-hero {
+    position: relative;
+    display: grid;
+    align-items: center;
+    min-height: calc(100svh - var(--sl-nav-height, 3.5rem));
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .product-hero-media,
+  .product-hero-media video,
+  .product-hero-fallback,
+  .product-hero-scrim {
+    position: absolute;
+    inset: 0;
+  }
+
+  .product-hero-media {
+    z-index: -1;
+    background: var(--mk-bg);
+  }
+
+  .product-hero-media video {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.58;
+  }
+
+  .product-hero-fallback {
+    z-index: 0;
+    overflow: hidden;
+    background-image: var(--mikan-hero-poster);
+    background-size: cover;
+    background-position: center;
+    filter: saturate(0.88) contrast(0.96);
+    background-size:
+      auto,
+      5rem 5rem,
+      5rem 5rem;
+    opacity: 0.55;
+  }
+
+  .product-hero-media:has(video) .product-hero-fallback {
+    opacity: 0.16;
+  }
+
+  .mikan-orbit {
+    position: absolute;
+    top: 50%;
+    left: 73%;
+    width: clamp(11rem, 24vw, 23rem);
+    aspect-ratio: 1;
+    border: clamp(5px, 0.6vw, 9px) solid var(--product-orange);
+    border-right-color: transparent;
+    border-radius: 48% 52% 46% 54%;
+    transform: translate(-50%, -50%) rotate(-12deg);
+  }
+
+  .signal {
+    position: absolute;
+    left: 52%;
+    width: clamp(5rem, 11vw, 10rem);
+    height: 1px;
+    transform-origin: right center;
+    background: var(--mk-border-strong);
+  }
+
+  .signal::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    background: var(--mk-bg);
+  }
+
+  .signal-one {
+    top: 35%;
+    color: var(--product-moss);
+    transform: rotate(10deg);
+  }
+  .signal-two {
+    top: 45%;
+    color: var(--product-blue);
+    transform: rotate(3deg);
+  }
+  .signal-three {
+    top: 55%;
+    color: #846c9d;
+    transform: rotate(-3deg);
+  }
+  .signal-four {
+    top: 65%;
+    color: var(--product-orange);
+    transform: rotate(-10deg);
+  }
+
+  .product-hero-scrim {
+    z-index: 2;
+    background: linear-gradient(
+      90deg,
+      var(--mk-bg) 0%,
+      color-mix(in srgb, var(--mk-bg) 94%, transparent) 35%,
+      color-mix(in srgb, var(--mk-bg) 35%, transparent) 67%,
+      var(--mk-bg) 100%
+    );
+  }
+
+  .product-hero-copy,
+  .product-section,
+  .product-more,
+  .product-closing-cta,
+  .product-footer-inner {
+    width: min(100% - 3rem, 78rem);
+    margin-inline: auto;
+  }
+
+  .product-hero-copy {
+    padding-block: clamp(7rem, 14vw, 12rem);
+  }
+
+  .product-eyebrow,
+  .record-label {
+    margin: 0;
+    color: var(--product-orange);
+    font-family: var(--mk-font-mono-label);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .product-hero h1 {
+    max-width: 12ch;
+    margin: 1.5rem 0 0;
+    color: var(--mk-text);
+    font-size: clamp(4rem, 8.2vw, 8rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 0.94;
+    text-wrap: balance;
+  }
+
+  .product-slogan {
+    max-width: 38ch;
+    margin: 2rem 0 0;
+    color: var(--mk-text-soft);
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    line-height: 1.6;
+  }
+
+  .product-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2.5rem;
+  }
+
+  .product-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.7rem 1.5rem;
+    border: 1px solid var(--mk-outline-hover);
+    border-radius: 999px;
+    font-family: var(--mk-font-mono-label);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+  }
+
+  .product-button-primary {
+    border-color: var(--product-orange);
+    background: var(--product-orange);
+    color: #fff;
+  }
+
+  .product-button-secondary {
+    background: color-mix(in srgb, var(--mk-bg) 60%, transparent);
+    color: var(--mk-text);
+  }
+
+  .product-section {
+    display: grid;
+    gap: clamp(4rem, 8vw, 7rem);
+    padding-block: clamp(7rem, 12vw, 11rem);
+    border-top: 1px solid var(--mk-border);
+  }
+
+  .product-section-head {
+    max-width: 52rem;
+  }
+
+  .product-section h2,
+  .product-more h2,
+  .product-closing h2 {
+    margin: 1rem 0 0;
+    color: var(--mk-text);
+    font-size: clamp(2.6rem, 5.2vw, 5rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  .product-section-head > p:last-child {
+    max-width: 62ch;
+    margin: 1.5rem 0 0;
+    color: var(--mk-text-muted);
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+
+  .platform-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .platform-item {
+    min-width: 0;
+    padding: 1.75rem clamp(1rem, 2.5vw, 2rem);
+    border-top: 1px solid var(--mk-border-strong);
+  }
+
+  .platform-item + .platform-item {
+    border-left: 1px solid var(--mk-border);
+  }
+
+  .platform-item > span,
+  .record-index {
+    color: var(--mk-text-faint);
+    font-family: var(--mk-font-mono-label);
+    font-size: 0.72rem;
+  }
+
+  .platform-item h3,
+  .record-column h3 {
+    margin: 2.2rem 0 0;
+    color: var(--mk-text);
+    font-size: 1.35rem;
+    font-weight: 400;
+  }
+
+  .platform-item p {
+    margin: 0.75rem 0 0;
+    color: var(--mk-text-muted);
+    line-height: 1.65;
+  }
+
+  .product-text-link {
+    width: fit-content;
+    color: var(--mk-text);
+    font-family: var(--mk-font-mono-label);
+    font-size: 0.8rem;
+    text-decoration-color: var(--product-orange);
+    text-underline-offset: 0.35rem;
+  }
+
+  .record-figure {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: stretch;
+  }
+
+  .record-column {
+    display: grid;
+    align-content: start;
+    min-height: 19rem;
+    padding: 2rem;
+    border: 1px solid var(--mk-border-strong);
+    border-radius: 0.65rem;
+  }
+
+  .record-column .record-label {
+    margin-top: 3.5rem;
+  }
+  .record-column h3 {
+    margin-top: 0.65rem;
+    font-size: 1.8rem;
+  }
+  .record-column code {
+    margin-top: 1rem;
+    color: var(--mk-text-muted);
+  }
+  .record-separator {
+    width: 1px;
+    background: var(--product-orange);
+  }
+
+  .execution-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--mk-border-strong);
+    list-style: none;
+  }
+
+  .execution-list li {
+    padding: 1.3rem 0;
+    border-bottom: 1px solid var(--mk-border);
+    color: var(--mk-text);
+    font-family: var(--mk-font-mono-label);
+  }
+
+  .product-more {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: clamp(3rem, 9vw, 9rem);
+    padding-block: clamp(7rem, 12vw, 11rem);
+    border-top: 1px solid var(--mk-border);
+  }
+
+  .product-more h2 {
+    font-size: clamp(2.4rem, 4vw, 4rem);
+  }
+  .product-more nav {
+    display: grid;
+  }
+  .product-more nav a {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--mk-border);
+    color: var(--mk-text);
+    text-decoration: none;
+  }
+  .product-more nav a:first-child {
+    border-top: 1px solid var(--mk-border);
+  }
+  .product-more nav span {
+    color: var(--product-orange);
+  }
+
+  .product-closing {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-items: start;
+    min-height: clamp(38rem, 64vw, 58rem);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .product-closing::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-image: var(--mikan-footer-light);
+    background-position: center bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .product-closing-cta {
+    padding-top: calc(var(--sl-nav-height) + clamp(4rem, 8vw, 7rem));
+  }
+  .product-closing h2 {
+    max-width: 13ch;
+    color: var(--mk-text);
+  }
+  .product-closing .product-button {
+    margin-top: 2rem;
+  }
+
+  .product-footer-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-bottom: 1.5rem;
+    color: #fff;
+  }
+  .product-footer-brand {
+    display: grid;
+    gap: 0.35rem;
+  }
+  .product-footer-name {
+    font-size: 1rem;
+    font-weight: 550;
+    letter-spacing: -0.01em;
+  }
+  .product-footer-brand p,
+  .product-footer-meta {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+  .product-footer-aside {
+    display: grid;
+    justify-items: end;
+    gap: 0.8rem;
+  }
+  .product-footer-social,
+  .product-footer-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .product-footer-social a {
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .product-footer-social a:hover {
+    border-color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  .product-footer-social svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  .product-footer-meta {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    font-family: var(--mk-font-mono-label);
+    letter-spacing: 0.04em;
+  }
+  .product-footer-meta a {
+    color: inherit;
+  }
+
+  :global(:root[data-theme="dark"]) .product-closing {
+    color: #fff;
+  }
+  :global(:root[data-theme="dark"]) .product-closing::before {
+    background-image: var(--mikan-footer-dark);
+    filter: invert(1) hue-rotate(180deg) brightness(0.72) contrast(1.08)
+      sepia(0.18) saturate(0.85);
+  }
+  :global(:root[data-theme="dark"]) .product-closing::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      to bottom,
+      var(--mk-bg),
+      transparent 25%,
+      rgba(8, 9, 12, 0.88) 100%
+    );
+  }
+  :global(:root[data-theme="dark"]) .product-closing h2 {
+    color: #fff;
+  }
+
+  @media (max-width: 58rem) {
+    .product-hero h1 {
+      max-width: 10ch;
+    }
+    .product-hero-scrim {
+      background: linear-gradient(
+        90deg,
+        var(--mk-bg),
+        color-mix(in srgb, var(--mk-bg) 80%, transparent) 70%,
+        var(--mk-bg)
+      );
+    }
+    .platform-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .platform-item:nth-child(3) {
+      border-left: 0;
+    }
+    .product-more {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .product-hero-copy,
+    .product-section,
+    .product-more,
+    .product-closing-cta,
+    .product-footer-inner {
+      width: min(100% - 2rem, 78rem);
+    }
+    .product-hero {
+      min-height: 48rem;
+      align-items: start;
+    }
+    .product-hero-copy {
+      padding-top: calc(var(--sl-nav-height) + 4rem);
+    }
+    .product-hero h1 {
+      font-size: clamp(3.6rem, 17vw, 5rem);
+    }
+    .mikan-orbit {
+      top: 77%;
+      left: 72%;
+      width: 12rem;
+    }
+    .signal {
+      top: 76%;
+      left: 24%;
+      width: 8rem;
+    }
+    .signal-one {
+      transform: translateY(-4rem) rotate(12deg);
+    }
+    .signal-two {
+      transform: translateY(-1.4rem) rotate(4deg);
+    }
+    .signal-three {
+      transform: translateY(1.4rem) rotate(-4deg);
+    }
+    .signal-four {
+      transform: translateY(4rem) rotate(-12deg);
+    }
+    .product-hero-scrim {
+      background: linear-gradient(
+        180deg,
+        var(--mk-bg) 0%,
+        color-mix(in srgb, var(--mk-bg) 94%, transparent) 58%,
+        color-mix(in srgb, var(--mk-bg) 35%, transparent) 82%,
+        var(--mk-bg) 100%
+      );
+    }
+    .product-section {
+      padding-block: 6rem;
+    }
+    .platform-list {
+      grid-template-columns: 1fr;
+    }
+    .platform-item + .platform-item {
+      border-left: 0;
+    }
+    .record-figure {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .record-separator {
+      width: auto;
+      height: 1px;
+    }
+    .record-column {
+      min-height: 15rem;
+    }
+    .execution-list {
+      grid-template-columns: 1fr;
+    }
+    .product-closing {
+      min-height: 38rem;
+    }
+    .product-footer-inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .product-footer-aside {
+      justify-items: start;
+    }
+    .product-footer-meta {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-hero-media video {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mikan-orbit {
+      animation: mikan-orbit-drift 24s linear infinite;
+    }
+    .signal::before {
+      animation: mikan-signal-pulse 3.2s ease-in-out infinite;
+    }
+  }
+
+  @keyframes mikan-orbit-drift {
+    to {
+      transform: translate(-50%, -50%) rotate(348deg);
+    }
+  }
+
+  @keyframes mikan-signal-pulse {
+    50% {
+      opacity: 0.3;
+      transform: scale(1.4);
+    }
+  }
+</style>

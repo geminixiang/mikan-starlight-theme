@@ -74,6 +74,22 @@ import Features from "@geminixiang/mikan-starlight-theme/components/Features.ast
 import CTA from "@geminixiang/mikan-starlight-theme/components/CTA.astro";
 ```
 
+For mikan's product landing page, use the code-grounded conversation agent layout:
+
+```mdx
+import ConversationAgentLanding from "@geminixiang/mikan-starlight-theme/components/PersistentOperatorLanding.astro";
+
+<ConversationAgentLanding />
+```
+
+Its links default to mikan's documentation routes and can be overridden with
+`quickstartHref`, `githubHref`, `platformsHref`, `sessionsHref`, `sandboxHref`,
+`commandsHref`, `eventsHref`, and `skillsHref`. Pass `heroVideoSrc` and optionally
+`heroPosterSrc` for the decorative hero film; without them the component renders
+its CSS fallback. The Starlight header remains the single navigation surface,
+including search, locale, and theme controls. The global footer uses separate
+dark and light sumi-e artwork so the light page has no hard footer boundary.
+
 ## Development
 
 ```sh
