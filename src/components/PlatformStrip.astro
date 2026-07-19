@@ -1,0 +1,27 @@
+---
+/**
+ * A quiet hairline-ruled strip naming the surfaces a product connects to.
+ *
+ * Structural, not decorative: each cell is one real integration, set in the
+ * mono-caps "code comment" label voice, divided by hairlines only. No fills,
+ * no icons, no shadows — the same restraint as the feature grid.
+ *
+ * <PlatformStrip
+ *   label="Runs where your team already talks"
+ *   items={["Slack", "Telegram", "Discord", "GitHub"]}
+ * />
+ */
+interface Props {
+  label?: string;
+  items?: string[];
+}
+
+const { label, items = [] } = Astro.props;
+---
+
+<section class="mikan-platforms not-content">
+  {label && <span class="mikan-platforms-label">{label}</span>}
+  <ul class="mikan-platforms-row">
+    {items.map((item) => <li class="mikan-platform">{item}</li>)}
+  </ul>
+</section>

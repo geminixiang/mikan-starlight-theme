@@ -54,6 +54,7 @@
 
   /* Illustrative accents (sunset / dusk / breeze) — reserved, used sparingly. */
   --mk-accent-sunset: #ff7a17;
+  --mk-accent-sunset-soft: #ffc285;
   --mk-accent-dusk: #7c3aed;
   --mk-accent-breeze: #a0c3ec;
 
@@ -1376,7 +1377,12 @@ starlight-menu-button button {
    * into the band. Transparent at the very top → fully opaque by 18% down; the
    * bottom 82% (deep-ink scrim + text) is untouched.
    */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 100%
+  );
   mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 100%);
   /* White overlay text reads on the dark gradient regardless of theme. */
   color: #fff;
@@ -1545,8 +1551,31 @@ starlight-menu-button button {
 }
 
 .sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-features,
-.sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-cta {
+.sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-cta,
+.sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-platforms,
+.sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-arch,
+.sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-codedemo {
   margin-block: 0;
+}
+
+/*
+ * Rhythm, not repetition. A uniform gap made every section read as the same
+ * block; instead the flow breathes unevenly on purpose:
+ *   · the platform strip hugs the hero as its caption (small gap above),
+ *   · the signature arch band gets extra air on both sides so it stands alone,
+ *   · the closing CTA arrives after a longer pause.
+ * Flex `gap` sets the baseline; these margins add or remove from specific seams.
+ */
+.sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-platforms {
+  margin-top: calc(var(--mk-section-gap) * -0.5);
+}
+
+.sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-arch {
+  margin-block: var(--mk-space-4);
+}
+
+.sl-markdown-content:has(.mikan-hero, .mikan-cta) > .mikan-cta {
+  margin-top: var(--mk-space-4);
 }
 
 .mikan-hero {
@@ -1584,6 +1613,7 @@ starlight-menu-button button {
   font-weight: var(--mk-weight-display);
   letter-spacing: var(--mk-tracking-display);
   line-height: 1;
+  text-wrap: balance;
 }
 
 .mikan-hero p {
@@ -1599,6 +1629,57 @@ starlight-menu-button button {
   flex-wrap: wrap;
   gap: var(--mk-space-3);
   margin-top: var(--mk-space-1);
+}
+
+/*
+ * Hero entrance choreography (opt-in via [data-anim], set by the hero script
+ * only when motion will play). Each direct child fades and rises in sequence —
+ * eyebrow, headline, tagline, actions — so the thesis assembles itself on load.
+ * Without the attribute the hero is fully visible, so no-JS / reduced-motion /
+ * crawlers never see a blank hero. Children are staggered by source order via
+ * :nth-child, independent of which optional parts are present.
+ */
+.mikan-hero[data-anim] > * {
+  opacity: 0;
+  transform: translateY(0.6rem);
+  transition:
+    opacity 560ms ease,
+    transform 620ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.mikan-hero[data-anim] > *:nth-child(1) {
+  transition-delay: 60ms;
+}
+.mikan-hero[data-anim] > *:nth-child(2) {
+  transition-delay: 180ms;
+}
+.mikan-hero[data-anim] > *:nth-child(3) {
+  transition-delay: 320ms;
+}
+.mikan-hero[data-anim] > *:nth-child(4) {
+  transition-delay: 460ms;
+}
+.mikan-hero[data-anim] > *:nth-child(n + 5) {
+  transition-delay: 560ms;
+}
+
+.mikan-hero[data-anim].is-shown > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*
+ * The sunset eyebrow dot lights just ahead of the copy — a small warm "power on"
+ * that ties the hero's one accent to the pulse that later runs the arch spine.
+ * It scales up from 0 as the eyebrow settles.
+ */
+.mikan-hero[data-anim] .mikan-hero-eyebrow::before {
+  transform: scale(0);
+  transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1) 120ms;
+}
+
+.mikan-hero[data-anim].is-shown .mikan-hero-eyebrow::before {
+  transform: scale(1);
 }
 
 .mikan-btn {
@@ -1752,6 +1833,482 @@ starlight-menu-button button {
   line-height: 1.6;
 }
 
+/*
+ * ---------- Platform strip ----------
+ *
+ * A hairline-ruled row naming the surfaces the product connects to. Same
+ * "typography over borders" language as the feature grid: mono-caps labels,
+ * a single top hairline, thin dividers between cells — no fills, no icons.
+ */
+.mikan-platforms {
+  display: grid;
+  gap: var(--mk-space-4);
+}
+
+.mikan-platforms-label {
+  color: var(--mk-text-muted);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  letter-spacing: var(--mk-tracking-label);
+  text-transform: uppercase;
+}
+
+.mikan-platforms-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--mk-border);
+}
+
+.mikan-platform {
+  padding: var(--mk-space-4) var(--mk-space-4) var(--mk-space-4) 0;
+  color: var(--mk-text);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-sm);
+  letter-spacing: 0.06em;
+  /* A thin rule between cells; the row's top hairline caps them all. */
+  border-inline-start: 1px solid var(--mk-border);
+  padding-inline-start: var(--mk-space-4);
+}
+
+.mikan-platform:first-child {
+  border-inline-start: 0;
+  padding-inline-start: 0;
+}
+
+/*
+ * ---------- Architecture band (the signature) ----------
+ *
+ * The one place the page spends its boldness. Four stages hang off a single
+ * hairline spine and read left-to-right as a real data path. The stages are
+ * offset in height, not glued into equal columns — the eye reads them as
+ * separate things kept apart, which is the whole point. A warm sunset pulse
+ * (the brand's one accent colour) travels the spine, and the stages reveal in
+ * sequence when the band scrolls in. Everything is static and fully visible
+ * under prefers-reduced-motion or with JS off; the motion is the only flourish
+ * on the page and it lives here alone.
+ */
+.mikan-arch {
+  display: grid;
+  gap: var(--mk-space-7);
+}
+
+.mikan-arch-head {
+  display: grid;
+  gap: var(--mk-space-3);
+  max-width: 52ch;
+}
+
+.mikan-arch-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mk-space-2);
+  width: fit-content;
+  color: var(--mk-text-muted);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  letter-spacing: var(--mk-tracking-label);
+  text-transform: uppercase;
+}
+
+/* A small sunset tick ties the eyebrow to the pulse that runs the spine below. */
+.mikan-arch-eyebrow::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: var(--mk-radius-pill);
+  background: var(--mk-accent-sunset);
+}
+
+.mikan-arch-head h2 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  max-width: 20ch;
+  color: var(--mk-text);
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: var(--mk-weight-display);
+  letter-spacing: var(--mk-tracking-display);
+  line-height: 1.04;
+}
+
+/* Kill the markdown-h2 highlighter swipe when the band renders on a splash. */
+.mikan-arch-head h2::before {
+  content: none;
+}
+
+.mikan-arch-head p {
+  margin: 0;
+  max-width: 50ch;
+  color: var(--mk-text-muted);
+  line-height: 1.6;
+}
+
+/*
+ * The spine: a relative track holding the rail, the travelling pulse, and the
+ * four nodes. The nodes sit in an equal-fraction grid but each is nudged down
+ * by a per-node offset (--drop) so the row reads as staggered, not blocked.
+ */
+.mikan-arch-spine {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* No column gap — the rail + arrows carry the connection; nodes get inner pad. */
+  gap: 0;
+  padding-top: var(--mk-space-6);
+}
+
+/* The rail — a single hairline the nodes hang from, capped just inside the ends. */
+.mikan-arch-rail {
+  position: absolute;
+  top: var(--mk-space-6);
+  left: 6%;
+  right: 6%;
+  height: 1px;
+  background: var(--mk-border);
+}
+
+/*
+ * The pulse: a short warm segment that sweeps the rail once the band is shown.
+ * It's a gradient sliver masked to the rail's height, translated across via a
+ * keyframe. Sunset is the brand's only warm accent — it appears here and only
+ * here on the marketing surface, echoing the fruit the project is named for.
+ */
+.mikan-arch-pulse {
+  position: absolute;
+  top: var(--mk-space-6);
+  left: 6%;
+  width: 22%;
+  height: 1px;
+  transform: translateX(-30%) scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--mk-accent-sunset) 45%,
+    var(--mk-accent-sunset-soft, #ffc285) 60%,
+    transparent
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mikan-arch.is-shown .mikan-arch-pulse {
+  animation: mikan-arch-sweep 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.5s 1 forwards;
+}
+
+@keyframes mikan-arch-sweep {
+  0% {
+    transform: translateX(-30%) scaleX(0.4);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(355%) scaleX(1);
+    opacity: 0;
+  }
+}
+
+/* Vertical variant used when the spine rotates on narrow screens. */
+@keyframes mikan-arch-sweep-y {
+  0% {
+    transform: translateY(-30%) scaleY(0.4);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(355%) scaleY(1);
+    opacity: 0;
+  }
+}
+
+.mikan-arch-node {
+  position: relative;
+  display: grid;
+  gap: var(--mk-space-2);
+  align-content: start;
+  padding: var(--mk-space-5) var(--mk-space-4) 0 0;
+}
+
+/*
+ * Reveal is OPT-IN: the band is fully visible by default (no JS, reduced motion,
+ * or crawler all get the complete static diagram). Only when the reveal script
+ * marks the band with [data-anim] do the nodes start hidden and animate in — so
+ * a missing/blocked script can never leave the signature blank.
+ */
+.mikan-arch[data-anim] .mikan-arch-node {
+  opacity: 0;
+  transform: translateY(0.75rem);
+  transition:
+    opacity 520ms ease,
+    transform 520ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(120ms * var(--i));
+}
+
+/*
+ * Stagger: the 2nd and 4th stages drop below the rail so the row reads as four
+ * separate things rather than one blocked bar. The nodes are the only <div>
+ * children of the spine (rail/pulse are <span>), so :nth-of-type counts nodes
+ * alone — no dependence on newer `:nth-child(… of …)` syntax.
+ */
+.mikan-arch-node:nth-of-type(even) {
+  margin-top: var(--mk-space-6);
+}
+
+.mikan-arch[data-anim].is-shown .mikan-arch-node {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*
+ * The tick connects each node up to the rail: a thin vertical stem topped by a
+ * ring that sits on the rail line. The stem's height is the distance from the
+ * node's top up to the rail, so high (odd) and dropped (even) nodes both meet
+ * the spine cleanly. --stem is that distance; the ring is drawn by ::before.
+ */
+.mikan-arch-tick {
+  --stem: var(--mk-space-6); /* high nodes: node top already sits at the rail */
+  position: absolute;
+  top: calc(-1 * var(--stem));
+  inset-inline-start: 0.3rem;
+  width: 1px;
+  height: var(--stem);
+  background: var(--mk-border);
+}
+
+/* Dropped (even) nodes sit one step lower, so their stem is that much longer. */
+.mikan-arch-node:nth-of-type(even) .mikan-arch-tick {
+  --stem: calc(var(--mk-space-6) * 2);
+}
+
+.mikan-arch-tick::before {
+  content: "";
+  position: absolute;
+  top: -0.31rem;
+  inset-inline-start: -0.3rem;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: var(--mk-radius-pill);
+  border: 1px solid var(--mk-border-strong);
+  background: var(--mk-bg);
+}
+
+/* The entry point (first node) rings warm — the pulse starts here. */
+.mikan-arch-node:first-child .mikan-arch-tick::before {
+  border-color: var(--mk-accent-sunset);
+  background: var(--mk-accent-sunset);
+}
+
+.mikan-arch-index {
+  color: var(--mk-text-faint);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  letter-spacing: var(--mk-tracking-label);
+}
+
+.mikan-arch-node h3 {
+  margin: 0;
+  color: var(--mk-text);
+  font-size: var(--mk-text-base);
+  font-weight: 620;
+  letter-spacing: -0.01em;
+}
+
+.mikan-arch-node p {
+  margin: 0;
+  max-width: 24ch;
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-sm);
+  line-height: 1.55;
+}
+
+/*
+ * The relationship verb ("records", "drives", "requests") rides inline with the
+ * stage index — "01 · records →" — naming WHY this stage connects to the next,
+ * so the flow encodes real information rather than decoration. It's tinted to
+ * the faint hairline tone so the stage number stays primary.
+ */
+.mikan-arch-verb {
+  color: var(--mk-border-strong);
+  text-transform: lowercase;
+}
+
+/*
+ * ---------- Code demo ("how it works") ----------
+ *
+ * Steps on one side, a static terminal frame on the other. The terminal mirrors
+ * the theme's Expressive Code terminal chrome (dot header, code-bg surface,
+ * hairline border) so a splash page can show a command run without a live
+ * fenced block.
+ */
+.mikan-codedemo {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.mikan-codedemo-copy {
+  display: grid;
+  gap: var(--mk-space-4);
+  align-content: start;
+}
+
+.mikan-codedemo-eyebrow {
+  color: var(--mk-text-muted);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  letter-spacing: var(--mk-tracking-label);
+  text-transform: uppercase;
+}
+
+.mikan-codedemo-copy h2 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  max-width: 18ch;
+  color: var(--mk-text);
+  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  font-weight: var(--mk-weight-display);
+  letter-spacing: var(--mk-tracking-display);
+  line-height: 1.08;
+}
+
+.mikan-codedemo-copy h2::before {
+  content: none;
+}
+
+.mikan-codedemo-steps {
+  display: grid;
+  gap: var(--mk-space-4);
+  margin: var(--mk-space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: mikan-step;
+}
+
+.mikan-codedemo-step {
+  counter-increment: mikan-step;
+  display: grid;
+  gap: var(--mk-space-1);
+  padding-top: var(--mk-space-3);
+  padding-inline-start: 2.2rem;
+  border-top: 1px solid var(--mk-border);
+}
+
+.mikan-codedemo-step::before {
+  content: counter(mikan-step, decimal-leading-zero);
+  grid-row: 1 / span 2;
+  margin-inline-start: -2.2rem;
+  color: var(--mk-text-faint);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  letter-spacing: var(--mk-tracking-label);
+  line-height: 1.6;
+}
+
+.mikan-codedemo-step h3 {
+  margin: 0;
+  color: var(--mk-text);
+  font-size: var(--mk-text-base);
+  font-weight: 620;
+  letter-spacing: -0.01em;
+}
+
+.mikan-codedemo-step p {
+  margin: 0;
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-sm);
+  line-height: 1.55;
+}
+
+/* Terminal frame — matches the theme's terminal code-block chrome. */
+.mikan-terminal {
+  overflow: hidden;
+  border: 1px solid var(--mk-border);
+  border-radius: var(--mk-radius-md);
+  background: var(--mk-code-bg);
+}
+
+.mikan-terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--mk-space-3);
+  border-bottom: 1px solid var(--mk-border);
+  background: var(--mk-code-header);
+  padding: var(--mk-space-2) var(--mk-space-3);
+}
+
+.mikan-terminal-dots {
+  display: inline-flex;
+  gap: 0.34rem;
+}
+
+.mikan-terminal-dots span {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: var(--mk-radius-pill);
+  background: var(--mk-border-strong);
+}
+
+.mikan-terminal-title {
+  color: var(--mk-text-muted);
+  font-family: var(--mk-font-mono-label);
+  font-size: var(--mk-text-xs);
+  letter-spacing: 0.04em;
+}
+
+.mikan-terminal-body {
+  margin: 0;
+  overflow-x: auto;
+  padding: var(--mk-space-4);
+  font-family: var(--sl-font-mono);
+  font-size: var(--sl-text-code);
+  line-height: 1.75;
+  /* Normal white-space so source-formatting newlines between the block line
+     spans don't render; each line's own layout comes from display:block. */
+  white-space: normal;
+}
+
+/* Each terminal line is its own block row. */
+.mikan-tl {
+  display: block;
+  white-space: pre-wrap;
+}
+
+.mikan-tl-sigil {
+  margin-inline-end: 0.6ch;
+  color: var(--mk-accent-sunset);
+  user-select: none;
+}
+
+.mikan-tl-cmd {
+  color: var(--mk-text);
+}
+
+.mikan-tl-comment {
+  color: var(--mk-text-faint);
+}
+
+/* Output lines sit indented under the command that produced them. */
+.mikan-tl-output {
+  padding-inline-start: 1.4ch;
+  color: var(--mk-text-muted);
+}
+
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1807,6 +2364,92 @@ starlight-menu-button button {
   /* Single-column features already follow from auto-fit; tighten the gap. */
   .mikan-features {
     row-gap: var(--mk-space-6);
+  }
+
+  /* Platform strip collapses to a single stacked column: the vertical cell
+     dividers become horizontal top-rules. */
+  .mikan-platforms-row {
+    grid-template-columns: 1fr;
+    border-top: 0;
+  }
+
+  .mikan-platform {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+    padding-block: var(--mk-space-3);
+    border-top: 1px solid var(--mk-border);
+  }
+
+  /*
+   * The spine rotates to vertical: the rail runs top-to-bottom down the left,
+   * nodes stack and inset past it, and the pulse sweeps downward. The horizontal
+   * stagger is dropped (there's only one column now).
+   */
+  .mikan-arch-spine {
+    grid-template-columns: 1fr;
+    gap: var(--mk-space-5);
+    padding-top: 0;
+    padding-inline-start: var(--mk-space-5);
+  }
+
+  .mikan-arch-rail {
+    top: 0.4rem;
+    bottom: 0.4rem;
+    left: 0.3rem;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+
+  .mikan-arch-pulse {
+    top: 0;
+    left: 0.3rem;
+    width: 1px;
+    height: 22%;
+    transform: translateY(-30%) scaleY(0);
+    background: linear-gradient(
+      180deg,
+      transparent,
+      var(--mk-accent-sunset) 45%,
+      var(--mk-accent-sunset-soft, #ffc285) 60%,
+      transparent
+    );
+  }
+
+  .mikan-arch.is-shown .mikan-arch-pulse {
+    animation-name: mikan-arch-sweep-y;
+  }
+
+  .mikan-arch-node,
+  .mikan-arch-node:nth-of-type(even) {
+    margin-top: 0;
+    padding: 0 0 0 var(--mk-space-4);
+  }
+
+  /* Vertical stem: a short horizontal tick from the rail into each node. */
+  .mikan-arch-tick,
+  .mikan-arch-node:nth-of-type(even) .mikan-arch-tick {
+    --stem: var(--mk-space-5);
+    top: 0.5rem;
+    inset-inline-start: calc(-1 * var(--mk-space-5) + 0.3rem);
+    width: var(--stem);
+    height: 1px;
+  }
+
+  .mikan-arch-tick::before {
+    top: -0.3rem;
+    inset-inline-start: -0.31rem;
+  }
+
+  /* Code demo: terminal drops below the steps. */
+  .mikan-codedemo {
+    grid-template-columns: 1fr;
+    gap: var(--mk-space-6);
+  }
+
+  .mikan-codedemo-copy h2,
+  .mikan-arch-head h2 {
+    max-width: none;
   }
 
   /* Footer band: stack brand over the social/meta aside, left-aligned. */

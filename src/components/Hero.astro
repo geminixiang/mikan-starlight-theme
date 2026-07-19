@@ -31,7 +31,7 @@ interface Props {
 const { eyebrow, title, tagline, actions = [] } = Astro.props;
 ---
 
-<section class="mikan-hero not-content">
+<section class="mikan-hero not-content" data-mikan-hero>
   {eyebrow && <span class="mikan-hero-eyebrow">{eyebrow}</span>}
   {title ? <h1>{title}</h1> : <slot name="title" />}
   {tagline ? <p>{tagline}</p> : <slot name="tagline" />}
@@ -56,3 +56,31 @@ const { eyebrow, title, tagline, actions = [] } = Astro.props;
     )
   }
 </section>
+
+<script>
+  // One-shot entrance: on load, the hero's children fade+rise in sequence (the
+  // sunset eyebrow dot lights first). Reveal is OPT-IN — the CSS only hides
+  // children under [data-anim], which we set here only when animation will play,
+  // so no-JS / reduced-motion / crawlers get the hero fully visible at once.
+  function initMikanHero() {
+    const heroes = document.querySelectorAll<HTMLElement>("[data-mikan-hero]");
+    if (!heroes.length) return;
+
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reduce) return;
+
+    heroes.forEach((hero) => {
+      hero.setAttribute("data-anim", "");
+      // Next frame, flip to shown so the initial hidden state is painted first
+      // and the transition actually runs.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => hero.classList.add("is-shown")),
+      );
+    });
+  }
+
+  initMikanHero();
+  document.addEventListener("astro:page-load", initMikanHero);
+</script>
