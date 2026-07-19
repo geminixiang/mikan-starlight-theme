@@ -1341,42 +1341,33 @@ starlight-menu-button button {
 }
 
 /*
- * Sumi-e site footer band — a full-bleed ink-wash mountain landscape that runs
- * across every page. Footer.astro relocates this element to <body> so it spans
- * the true viewport width (the Footer slot otherwise lives inside the content
- * column). The artwork (footer-sumie.webp) is imported there and handed in via
- * --mk-footer-img. A deep ink gradient anchored to the bottom carries the white
- * overlay text. Dark mode inverts + hue-rotates the image (sky → ink, orange
- * sun preserved).
+ * Sumi-e site footer — separate artwork is used for each color mode. The light
+ * illustration is painted on the same warm paper as the page and fades upward
+ * without a band; dark mode keeps the deep-ink treatment that naturally joins
+ * the dark canvas.
  */
 .mikan-sitefooter {
   position: relative;
   width: 100%;
   margin-top: var(--mk-space-8);
-  /*
-   * Starlight's sidebar-pane / right-sidebar are position:fixed with z-index:5,
-   * pinned to the viewport — so as the footer scrolls up they hang over its
-   * left/right edges and slice the artwork. Lift the footer above them so it
-   * spans uninterrupted (it is the bottom-most thing on the page anyway). No
-   * top border: the artwork fades into the page on its own (see ::before).
-   */
   z-index: 10;
   isolation: isolate;
   overflow: hidden;
-  /*
-   * Opaque page-colour bed beneath the artwork, following the theme (--mk-bg).
-   * Without it the fixed sidebars under the footer would show through the
-   * faded top edge.
-   */
   background: var(--mk-bg);
-  /*
-   * Top-edge fade applied to the WHOLE footer (bed + artwork together). The bed
-   * is opaque --mk-bg; if only the artwork faded, the bed's own top edge stayed
-   * a hard line that sliced the sidebar text above it (the reported artefact).
-   * Masking the footer itself dissolves that edge so the sidebar/ToC text melts
-   * into the band. Transparent at the very top → fully opaque by 18% down; the
-   * bottom 82% (deep-ink scrim + text) is untouched.
-   */
+  color: var(--mk-text);
+}
+
+.mikan-sitefooter-art {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--mk-footer-img-light);
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+
+:root[data-theme="dark"] .mikan-sitefooter {
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
@@ -1384,55 +1375,26 @@ starlight-menu-button button {
     #000 100%
   );
   mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 100%);
-  /* White overlay text reads on the dark gradient regardless of theme. */
   color: #fff;
 }
 
-.mikan-sitefooter-art {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background-image: var(--mk-footer-img);
-  background-size: cover;
-  background-position: center 42%;
-  background-repeat: no-repeat;
-  /*
-   * No mask here — the top-edge fade lives on .mikan-sitefooter so the opaque
-   * bed fades with the artwork as one. A second fade here would double up and
-   * over-thin the upper band.
-   */
-}
-
 :root[data-theme="dark"] .mikan-sitefooter-art {
-  /*
-   * Invert luminance (white sky → ink) and spin hue back so the orange sun stays
-   * warm. The extra sepia + lowered saturation/brightness warm the inverted grey
-   * toward the page's purple-black canvas (#111113) — without them the band reads
-   * as a cold-grey patch that clashes with the warmer dark surface around it.
-   */
+  background-image: var(--mk-footer-img-dark);
+  background-position: center 42%;
   filter: invert(1) hue-rotate(180deg) brightness(0.78) contrast(1.05)
     sepia(0.18) saturate(0.85);
 }
 
-/*
- * Ink scrim: a deep band along the bottom edge (where the text sits) fading up
- * into the misty landscape — the "深墨实带" that guarantees the white text reads
- * over any part of the artwork. It MUST live on .mikan-sitefooter (not on the
- * art layer): the dark-mode invert() filter is scoped to .mikan-sitefooter-art,
- * so a scrim there would be inverted to a pale band and fail. Here it sits above
- * the (z-index:-2) art, below the (auto) content, identical in both themes.
- */
 .mikan-sitefooter::before {
+  content: none;
+}
+
+:root[data-theme="dark"] .mikan-sitefooter::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  /*
-   * Deep-ink scrim along the bottom that carries the white overlay text. (The
-   * artwork's upper edge is faded by the vertical mask on .mikan-sitefooter-art,
-   * so no top gradient is needed here.)
-   */
   background: linear-gradient(
     to bottom,
     transparent 0%,
@@ -1461,7 +1423,7 @@ starlight-menu-button button {
 }
 
 .mikan-sitefooter-name {
-  color: #fff;
+  color: var(--mk-text);
   font-size: var(--mk-text-base);
   font-weight: 550;
   letter-spacing: -0.01em;
@@ -1470,7 +1432,7 @@ starlight-menu-button button {
 .mikan-sitefooter-tagline {
   margin: 0;
   max-width: 42ch;
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--mk-text-muted);
   font-size: var(--mk-text-sm);
   line-height: 1.55;
 }
@@ -1491,10 +1453,10 @@ starlight-menu-button button {
   place-items: center;
   width: 2.25rem;
   height: 2.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid var(--mk-outline);
   border-radius: var(--mk-radius-pill);
-  background: transparent;
-  color: rgba(255, 255, 255, 0.85);
+  background: color-mix(in srgb, var(--mk-bg) 72%, transparent);
+  color: var(--mk-text);
   transition:
     border-color 120ms ease,
     color 120ms ease,
@@ -1502,9 +1464,9 @@ starlight-menu-button button {
 }
 
 .mikan-sitefooter-social a:hover {
-  border-color: rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  border-color: var(--mk-outline-hover);
+  background: var(--mk-surface-hover);
+  color: var(--mk-text);
 }
 
 .mikan-sitefooter-meta {
@@ -1514,13 +1476,41 @@ starlight-menu-button button {
   justify-content: flex-end;
   gap: var(--mk-space-2);
   margin: 0;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--mk-text-muted);
   font-family: var(--mk-font-mono-label);
   font-size: var(--mk-text-xs);
   letter-spacing: 0.04em;
 }
 
 .mikan-sitefooter-dot {
+  color: var(--mk-text-faint);
+}
+
+:root[data-theme="dark"] .mikan-sitefooter-name {
+  color: #fff;
+}
+
+:root[data-theme="dark"] .mikan-sitefooter-tagline {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+:root[data-theme="dark"] .mikan-sitefooter-social a {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:root[data-theme="dark"] .mikan-sitefooter-social a:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+:root[data-theme="dark"] .mikan-sitefooter-meta {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+:root[data-theme="dark"] .mikan-sitefooter-dot {
   color: rgba(255, 255, 255, 0.4);
 }
 
@@ -1533,17 +1523,58 @@ starlight-menu-button button {
  * collapse that first panel when a later panel contains a mikan landing
  * section. The :has() target is the content wrapper Starlight emits.
  */
-.main-pane:has(.mikan-hero, .mikan-cta) main > .content-panel:first-child,
-.main-pane:has(.mikan-hero, .mikan-cta) .mikan-pagination-links {
+.main-pane:has(.mikan-hero, .mikan-cta, .mikan-product)
+  main
+  > .content-panel:first-child,
+main:has(.mikan-product) > .content-panel:first-child,
+.main-pane:has(.mikan-hero, .mikan-cta, .mikan-product)
+  .mikan-pagination-links {
   display: none;
 }
 
+/* Product landing owns its full-width flow and closing artwork. */
+.sl-markdown-content:has(.mikan-product) {
+  max-width: none;
+}
+
+.sl-markdown-content:has(.mikan-product) > .mikan-product {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+body:has(.mikan-product) .mikan-sitefooter,
+body:has(.mikan-product) .mikan-footer,
+body:has(.mikan-product) .mikan-pagination-links {
+  display: none !important;
+}
+
 /*
- * Splash spacing rhythm. The landing blocks each used to set their own
- * margin-block, which doubled up where they meet. Instead, let the content
- * flow own one consistent gap between landing sections, and zero the
- * components' self-margins so the rhythm is single-sourced.
+ * The product hero is the landing page's opening surface, so let it continue
+ * behind Starlight's fixed header instead of starting below a second nav-colored
+ * band. Header controls remain real Starlight controls; only their page-local
+ * backdrop changes. Documentation routes retain the normal opaque header.
  */
+body:has(.mikan-product) .page > header.header {
+  background: transparent;
+}
+
+main:has(.mikan-product) {
+  padding-bottom: 0;
+}
+
+main:has(.mikan-product) > .content-panel:nth-child(2) {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.sl-markdown-content:has(.mikan-product) {
+  margin-top: 0;
+}
+
+body:has(.mikan-product) .mikan-product {
+  margin-top: calc(-1 * var(--sl-nav-height)) !important;
+}
+
 .sl-markdown-content:has(.mikan-hero, .mikan-cta) {
   display: flex;
   flex-direction: column;

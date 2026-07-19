@@ -2,7 +2,8 @@
 import { Icon } from "@astrojs/starlight/components";
 import Pagination from "virtual:starlight/components/Pagination";
 import config from "virtual:starlight/user-config";
-import sumieFooter from "../assets/footer-sumie.webp";
+import darkSumieFooter from "../assets/footer-sumie.webp";
+import lightSumieFooter from "../assets/footer-sumie-light.webp";
 
 /**
  * Footer: the per-page pagination row Starlight expects, plus a full-bleed
@@ -45,7 +46,7 @@ const footerCredit = __MIKAN_FOOTER_CREDIT__;
   class="mikan-sitefooter print:hidden"
   role="contentinfo"
   data-mikan-sitefooter
-  style={`--mk-footer-img: url('${sumieFooter.src}')`}
+  style={`--mk-footer-img-dark: url('${darkSumieFooter.src}'); --mk-footer-img-light: url('${lightSumieFooter.src}')`}
 >
   <div class="mikan-sitefooter-art" aria-hidden="true"></div>
 
@@ -69,14 +70,24 @@ const footerCredit = __MIKAN_FOOTER_CREDIT__;
       }
       <p class="mikan-sitefooter-meta">
         <span>© {year} {siteTitle}</span>
-        {footerCredit && <span class="mikan-sitefooter-dot" aria-hidden="true">·</span>}
-        {footerCredit && (
-          <span>
-            {footerCredit.href
-              ? <a href={footerCredit.href}>{footerCredit.label}</a>
-              : footerCredit.label}
-          </span>
-        )}
+        {
+          footerCredit && (
+            <span class="mikan-sitefooter-dot" aria-hidden="true">
+              ·
+            </span>
+          )
+        }
+        {
+          footerCredit && (
+            <span>
+              {footerCredit.href ? (
+                <a href={footerCredit.href}>{footerCredit.label}</a>
+              ) : (
+                footerCredit.label
+              )}
+            </span>
+          )
+        }
       </p>
     </div>
   </div>

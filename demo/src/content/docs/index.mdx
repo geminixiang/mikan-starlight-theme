@@ -1,52 +1,17 @@
 ---
-title: mikan docs theme
-description: A crisp editorial Starlight theme — ink-on-paper typography, hairline borders, and a single restrained accent.
+title: mikan
+description: A self-hosted AI coding agent for Slack, Telegram, Discord, and GitHub.
 template: splash
 ---
 
-import Hero from "@geminixiang/mikan-starlight-theme/components/Hero.astro";
-import Features from "@geminixiang/mikan-starlight-theme/components/Features.astro";
-import CTA from "@geminixiang/mikan-starlight-theme/components/CTA.astro";
+import ConversationAgentLanding from "@geminixiang/mikan-starlight-theme/components/PersistentOperatorLanding.astro";
 
-<Hero
-  eyebrow="Astro Starlight theme"
-  title="Docs with the posture of a research lab"
-  tagline="Near-black canvas, pill outlines, weight-400 display type and mono-caps labels — engineered restraint, in light and dark."
-  actions={[
-    { text: "Get started", href: "/guide/theme-setup/", variant: "primary" },
-    { text: "View fixtures", href: "/guide/markdown/", variant: "secondary" },
-  ]}
-/>
-
-<Features
-  items={[
-    {
-      icon: "pencil",
-      title: "Editorial type",
-      body: "Weight-400 display with tight negative tracking, set on a comfortable measure.",
-    },
-    {
-      icon: "seti:css",
-      title: "One accent",
-      body: "A single blue, reserved for links and active state — never a marketing fill.",
-    },
-    {
-      icon: "document",
-      title: "Ink on paper",
-      body: "A warm near-white canvas, never pure #fff, kinder on long reading sessions.",
-    },
-    {
-      icon: "moon",
-      title: "Light + dark",
-      body: "Tuned token pairs for both modes, with no color flash on toggle.",
-    },
-  ]}
-/>
-
-<CTA
-  title="Ready to set your docs?"
-  body="Add the theme to your Starlight config and the landing blocks come with it."
-  actions={[
-    { text: "Get started", href: "/guide/theme-setup/", variant: "primary" },
-  ]}
+<ConversationAgentLanding
+  quickstartHref="/guide/theme-setup/"
+  platformsHref="/guide/components/"
+  sessionsHref="/guide/design/"
+  sandboxHref="/guide/theme-setup/"
+  commandsHref="/guide/components/"
+  eventsHref="/guide/add-ons/"
+  skillsHref="/guide/add-ons/"
 />
