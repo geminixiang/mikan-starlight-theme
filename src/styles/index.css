@@ -1353,32 +1353,29 @@ starlight-menu-button button {
   z-index: 10;
   isolation: isolate;
   overflow: hidden;
+  border-top: 1px solid var(--mk-border);
   background: var(--mk-bg);
   color: var(--mk-text);
 }
 
+/*
+ * Keep the artwork in normal flow, between the two text rows. This follows the
+ * same layout principle as Cloudflare's footer illustration: decoration owns
+ * real space instead of sitting behind content where it can reduce contrast.
+ */
 .mikan-sitefooter-art {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
+  width: 100%;
+  aspect-ratio: 1600 / 534;
+  min-height: 12rem;
+  max-height: 34rem;
   background-image: var(--mk-footer-img-light);
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
 }
 
-:root[data-theme="dark"] .mikan-sitefooter {
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    #000 18%,
-    #000 100%
-  );
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 100%);
-  color: #fff;
-}
-
 :root[data-theme="dark"] .mikan-sitefooter-art {
+  aspect-ratio: 16 / 7;
   background-image: var(--mk-footer-img-dark);
   background-position: center 42%;
   filter: invert(1) hue-rotate(180deg) brightness(0.78) contrast(1.05)
@@ -1389,32 +1386,28 @@ starlight-menu-button button {
   content: none;
 }
 
-:root[data-theme="dark"] .mikan-sitefooter::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 32%,
-    rgba(10, 11, 14, 0.55) 64%,
-    rgba(8, 9, 12, 0.96) 100%
+.mikan-sitefooter-top,
+.mikan-sitefooter-bottom {
+  position: relative;
+  z-index: 1;
+  width: min(
+    calc(100% - 2 * var(--mk-space-5)),
+    calc(var(--sl-content-width, 50rem) + var(--sl-sidebar-width, 18.75rem))
   );
+  margin-inline: auto;
 }
 
-.mikan-sitefooter-inner {
-  position: relative;
+.mikan-sitefooter-top {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: var(--mk-space-4) var(--mk-space-6);
-  max-width: var(--sl-content-width, 50rem);
-  margin-inline: auto;
-  /* Tall top padding lets the landscape breathe before the text. */
-  padding: clamp(8rem, 20vw, 14rem) var(--mk-space-5) var(--mk-space-5);
+  padding-block: var(--mk-space-5);
+}
+
+.mikan-sitefooter-bottom {
+  border-top: 1px solid var(--mk-border);
+  padding-block: var(--mk-space-4) var(--mk-space-5);
 }
 
 .mikan-sitefooter-brand {
@@ -1437,14 +1430,9 @@ starlight-menu-button button {
   line-height: 1.55;
 }
 
-.mikan-sitefooter-aside {
-  display: grid;
-  justify-items: end;
-  gap: var(--mk-space-3);
-}
-
 .mikan-sitefooter-social {
   display: flex;
+  flex: none;
   gap: var(--mk-space-2);
 }
 
@@ -1473,7 +1461,7 @@ starlight-menu-button button {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: var(--mk-space-2);
   margin: 0;
   color: var(--mk-text-muted);
@@ -2483,15 +2471,14 @@ body:has(.mikan-product) .mikan-product {
     max-width: none;
   }
 
-  /* Footer band: stack brand over the social/meta aside, left-aligned. */
-  .mikan-sitefooter-inner {
-    flex-direction: column;
+  /* Footer band: keep content and artwork in separate layout rows. */
+  .mikan-sitefooter-top {
     align-items: flex-start;
-    padding-top: clamp(7rem, 38vw, 12rem);
   }
 
-  .mikan-sitefooter-aside {
-    justify-items: start;
+  .mikan-sitefooter-art {
+    min-height: 10rem;
+    background-size: cover;
   }
 
   .mikan-sitefooter-meta {

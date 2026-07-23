@@ -14,11 +14,11 @@ import lightSumieFooter from "../assets/footer-sumie-light.webp";
  * column. To span the true viewport width, a tiny inline script relocates the
  * band to <body> on load (and removes any stale copy on view transitions).
  *
- * The backdrop is an ink-wash mountain landscape (footer-sumie.webp), imported
- * so Vite fingerprints it and handed to CSS via --mk-footer-img. The band's top
- * edge fades into the page (mask on .mikan-sitefooter) and its bottom carries a
- * deep-ink scrim for the white overlay text. Dark mode inverts + hue-rotates the
- * image (sky → ink, orange sun preserved). See index.css for the layering.
+ * The backdrop is an ink-wash mountain landscape, imported so Vite
+ * fingerprints it and handed to CSS through custom properties. Like
+ * Cloudflare's illustrated footer, the artwork occupies its own layout row
+ * between the project identity and legal metadata. It never sits behind text,
+ * so both color modes retain predictable contrast. See index.css for sizing.
  */
 const socialLinks = Array.isArray(config.social)
   ? config.social
@@ -48,48 +48,49 @@ const footerCredit = __MIKAN_FOOTER_CREDIT__;
   data-mikan-sitefooter
   style={`--mk-footer-img-dark: url('${darkSumieFooter.src}'); --mk-footer-img-light: url('${lightSumieFooter.src}')`}
 >
-  <div class="mikan-sitefooter-art" aria-hidden="true"></div>
-
-  <div class="mikan-sitefooter-inner">
+  <div class="mikan-sitefooter-top">
     <div class="mikan-sitefooter-brand">
       {siteTitle && <span class="mikan-sitefooter-name">{siteTitle}</span>}
       {tagline && <p class="mikan-sitefooter-tagline">{tagline}</p>}
     </div>
 
-    <div class="mikan-sitefooter-aside">
+    {
+      socialLinks.length > 0 && (
+        <nav class="mikan-sitefooter-social" aria-label="Project links">
+          {socialLinks.map(({ label, href, icon }) => (
+            <a {href} rel="me" aria-label={label} title={label}>
+              <Icon name={icon as never} />
+            </a>
+          ))}
+        </nav>
+      )
+    }
+  </div>
+
+  <div class="mikan-sitefooter-art" aria-hidden="true"></div>
+
+  <div class="mikan-sitefooter-bottom">
+    <p class="mikan-sitefooter-meta">
+      <span>© {year} {siteTitle}</span>
       {
-        socialLinks.length > 0 && (
-          <nav class="mikan-sitefooter-social" aria-label="Project links">
-            {socialLinks.map(({ label, href, icon }) => (
-              <a {href} rel="me" aria-label={label} title={label}>
-                <Icon name={icon as never} />
-              </a>
-            ))}
-          </nav>
+        footerCredit && (
+          <span class="mikan-sitefooter-dot" aria-hidden="true">
+            ·
+          </span>
         )
       }
-      <p class="mikan-sitefooter-meta">
-        <span>© {year} {siteTitle}</span>
-        {
-          footerCredit && (
-            <span class="mikan-sitefooter-dot" aria-hidden="true">
-              ·
-            </span>
-          )
-        }
-        {
-          footerCredit && (
-            <span>
-              {footerCredit.href ? (
-                <a href={footerCredit.href}>{footerCredit.label}</a>
-              ) : (
-                footerCredit.label
-              )}
-            </span>
-          )
-        }
-      </p>
-    </div>
+      {
+        footerCredit && (
+          <span>
+            {footerCredit.href ? (
+              <a href={footerCredit.href}>{footerCredit.label}</a>
+            ) : (
+              footerCredit.label
+            )}
+          </span>
+        )
+      }
+    </p>
   </div>
 </div>
 
